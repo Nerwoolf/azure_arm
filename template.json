@@ -5,21 +5,16 @@
 
   },
   "variables":{
-    "StorAccountTemplLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/storageaccount.json",
-    "VNetTemplLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/virtnet.json"
   },
   "resources":[
     {
         "name": "StorAccountTemplate",
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2015-01-01",
-        "tags": {
-            "displayName": "StorTemplate"
-        },
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[variables('StorAccountTemplLink')]",
+                "uri": "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/storageaccount.json" ,
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {}
@@ -29,13 +24,10 @@
         "name": "VNetTemplate",
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2015-01-01",
-        "tags": {
-            "displayName": "VNetTemplate"
-        },
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[variables('VNetTemplLink')]",
+                "uri": "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/virtnet.json",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {}

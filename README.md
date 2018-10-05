@@ -1,2 +1,2 @@
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://azuredeploy.net/)
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 This template deploy storage account and virtual network with "BackendSubnet" and "FrontendSubnet"

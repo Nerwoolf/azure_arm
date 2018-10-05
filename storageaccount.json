@@ -26,10 +26,6 @@
       "sku": {
         "name": "[parameters('storaccType')]"
       },
-      "dependsOn": [ ],
-      "tags": {
-        "displayName": "storacc"
-      },
       "kind": "Storage"
     }
   ],

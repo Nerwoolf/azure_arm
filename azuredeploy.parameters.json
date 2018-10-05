@@ -2,5 +2,44 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-  }
+
+  },
+  "variables":{
+    "StorAccountTemplLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/storageaccount.json",
+    "VNetTemplLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/virtnet.json"
+  },
+  "resources":[
+    {
+        "name": "StorAccountTemplate",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "tags": {
+            "displayName": ""
+        },
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[variables('StorAccountTemplLink')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {}
+        }
+    },
+    {
+        "name": "VNetTemplate",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "tags": {
+            "displayName": "VNetTemplate"
+        },
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[variables('VNetTemplLink')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {}
+        }
+    }
+  ]
 }

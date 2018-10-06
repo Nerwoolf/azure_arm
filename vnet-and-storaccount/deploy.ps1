@@ -3,7 +3,6 @@
     Deploys a template to Azure
 
  .DESCRIPTION
-    Deploys an Azure Resource Manager template
 
  .PARAMETER subscriptionId
     The subscription id where the template will be deployed.
@@ -37,11 +36,11 @@ param(
  [Parameter(Mandatory=$True)]
  [string]$deploymentName,
 
- [string]$templateFilePath = "template.json",
+ [string]$templateFilePath = "azdeploy.json",
 
  [string]$parametersFilePath = "s.json"
 )
-
+$resourceGroupName = $resourceGroupName.ToLower()
 
 # sign in
 Write-host -ForegroundColor Green "Loging to azure subscription"

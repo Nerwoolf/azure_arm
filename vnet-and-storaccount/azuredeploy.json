@@ -14,7 +14,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/storageaccount.json" ,
+                "uri": "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/vnet-and-storaccount/storageaccount.json" ,
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {}
@@ -27,7 +27,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/virtnet.json",
+                "uri": "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/vnet-and-storaccount/virtnet.json",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {}

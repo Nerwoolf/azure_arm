@@ -25,77 +25,41 @@
 #>
 
 param(
- [Parameter(Mandatory=$True)]
- [string]
- $subscriptionId,
+ [Parameter(Mandatory=$false)]
+ [string]$subscriptionId = "69f423df-297f-4625-b184-1cd5027cdba8",
 
  [Parameter(Mandatory=$True)]
- [string]
- $resourceGroupName,
-
- [string]
- $resourceGroupLocation,
+ [string]$resourceGroupName,
+ 
+ [Parameter(Mandatory=$true)]
+ [string]$resourceGroupLocation,
 
  [Parameter(Mandatory=$True)]
- [string]
- $deploymentName,
+ [string]$deploymentName,
 
- [string]
- $templateFilePath = "template.json",
+ [string]$templateFilePath = "template.json",
 
- [string]
- $parametersFilePath = "s.json"
+ [string]$parametersFilePath = "s.json"
 )
 
-<#
-.SYNOPSIS
-    Registers RPs
-#>
-Function RegisterRP {
-    Param(
-        [string]$ResourceProviderNamespace
-    )
-
-    Write-Host "Registering resource provider '$ResourceProviderNamespace'";
-    Register-AzureRmResourceProvider -ProviderNamespace $ResourceProviderNamespace;
-}
-
-#******************************************************************************
-# Script body
-# Execution begins here
-#******************************************************************************
-$ErrorActionPreference = "Stop"
 
 # sign in
-Write-Host "Logging in...";
-Connect-AzureRmAccount;
-
-# select subscription
-Write-Host "Selecting subscription '$subscriptionId'";
-Select-AzureRmSubscription -SubscriptionID $subscriptionId;
-
-# Register RPs
-$resourceProviders = @("microsoft.network");
-if($resourceProviders.length) {
-    Write-Host "Registering resource providers"
-    foreach($resourceProvider in $resourceProviders) {
-        RegisterRP($resourceProvider);
-    }
+Write-host -ForegroundColor Green "Loging to azure subscription"
+$SubCheck = Get-AzureRmSubscription -SubscriptionId $subscriptionId -ErrorAction SilentlyContinue
+if(!$SubCheck){
+    Connect-AzureRmAccount 
+    Select-AzureRmContext -SubscriptionID $subscriptionId
 }
 
 #Create or check for existing resource group
 $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
 if(!$resourceGroup)
 {
-    Write-Host "Resource group '$resourceGroupName' does not exist. To create a new resource group, please enter a location.";
-    if(!$resourceGroupLocation) {
-        $resourceGroupLocation = Read-Host "resourceGroupLocation";
-    }
     Write-Host "Creating resource group '$resourceGroupName' in location '$resourceGroupLocation'";
     New-AzureRmResourceGroup -Name $resourceGroupName -Location $resourceGroupLocation
 }
 else{
-    Write-Host "Using existing resource group '$resourceGroupName'";
+    Write-Host "Using existing resource group $resourceGroupName";
 }
 
 # Start the deployment

@@ -36,7 +36,7 @@ param(
  [Parameter(Mandatory=$True)]
  [string]$deploymentName,
 
- [string]$templateFilePath = "azdeploy.json",
+ [string]$templateFilePath = "azuredeploy.json",
 
  [string]$parametersFilePath = "s.json"
 )

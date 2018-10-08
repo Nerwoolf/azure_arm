@@ -1,7 +1,28 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        "VNetAddressPrefix":{
+            "type":"string",
+            "defaultValue": "192.168.0.0/16"
+          },
+        "FEsubnetName":{
+            "defaultValue": "FESubnet",
+            "type":"string"
+          },
+        "BESubnetName":{
+          "type": "string",
+          "defaultValue": "BESubnet"
+        },
+        "FEaddressPrefix":{
+            "type":"string",
+            "defaultValue": "192.168.0.0/24"
+          },
+        "BEaddressPrefix":{
+            "type":"string",
+            "defaultValue": "192.168.1.0/24"
+        }
+    },
     "variables": {
 
     },
@@ -33,9 +54,6 @@
     }
     ],
     "outputs": {
-        "NSGresourceID":{
-            "type": "string",
-            "value": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('nsgname'))]"
-        }
+        
     }
 }

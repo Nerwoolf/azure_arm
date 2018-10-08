@@ -33,10 +33,9 @@
       "type": "Microsoft.Network/virtualNetworks",
       "location": "[resourceGroup().location]",
       "apiVersion": "2016-03-30",
-      "dependsOn": [ ],
-      "tags": {
-        "displayName": "virtnet"
-      },
+      "dependsOn": [ 
+        "[concat('Microsoft.Network/networkSecurityGroups/','nsg-',resourceGroup().name)]"
+      ],
       "properties": {
         "addressSpace": {
           "addressPrefixes": [

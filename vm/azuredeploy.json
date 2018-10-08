@@ -56,10 +56,6 @@
     }
     ],
     "outputs": {
-        "NSGid":{
-            "type":"string",
-            "value":"[reference('NSG-Deploy').outputs.resourceID.value]"
-        }
         
     }
 }

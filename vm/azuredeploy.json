@@ -1,12 +1,8 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-           
-    },
-    "variables": {
-
-    },
+    "parameters": {},
+    "variables":{},
     "resources": [{
         "name": "NSG-Deploy",
         "type": "Microsoft.Resources/deployments",
@@ -33,7 +29,7 @@
         },
         "parameters": {
             "NSGid":{
-                "value":"[reference('NSG-Deploy','2015-01-01').outputs.nsgid.value]"
+                "value":"[reference('Microsoft.Resources/deploymentas/NSG-Deploy','2015-01-01').outputs.nsgid.value]"
             }
         },
         "dependsOn": [ "NSG-Deploy"]

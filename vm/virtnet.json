@@ -52,8 +52,8 @@
             "properties": {
               "addressPrefix": "[parameters('FEaddressPrefix')]",
               "networkSecurityGroup": {
-                "id":"[reference('NSG-Deploy').outputs.resourceid.value]"
-              } 
+                "id":"[resourceId('Microsoft.Network/networkSecurityGroups',variables('nsgname'))]"
+              }   
             }
             
           }

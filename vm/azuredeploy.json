@@ -31,7 +31,9 @@
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
-                "NSGid":"[reference('NSG-Deploy').outputs.resourceID.value]"
+                "NSGid":{
+                    "value": "Microsoft.Network/networkSecurityGroups/nsg-minsk"
+                    }
             }
         },
         "dependsOn": [ "NSG-Deploy"]

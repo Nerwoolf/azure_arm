@@ -34,8 +34,8 @@
       "location": "[resourceGroup().location]",
       "apiVersion": "2016-03-30",
       "dependsOn": [ 
-        "NSG-Deploy"
-      ],
+        "[reference('NSG-Deploy').outputs.NSGresourceID.value]"
+      ],  
       "properties": {
         "addressSpace": {
           "addressPrefixes": [

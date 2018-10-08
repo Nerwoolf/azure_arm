@@ -1,0 +1,30 @@
+{
+    "$": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {},
+    "resources": [ {
+        "name": "creatingRBAC",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2018-05-01",
+        "dependsOn": [
+          "creatingVM"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[variables('createRBACUrl')]",
+            "contentVersion": "1.0.0.0"
+          },
+          "parameters": {
+            "principalId": {
+              "value": "[reference('Microsoft.Resources/deployments/creatingVM', '2018-05-01').outputs.principalId.value]"
+            },
+            "storageAccountName": {
+              "value": "[variables('storageAccountName')]"
+            }
+          }
+        }
+      }],
+    "outputs": {}
+}

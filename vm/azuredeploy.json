@@ -20,19 +20,19 @@
         "name": "VirtNet-Deploy",
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2015-01-01",
+        "dependsOn": [ "NSG-Deploy"],
         "properties": {
             "mode": "Incremental",
             "templateLink": {
                 "uri": "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/vm/virtnet-with-nsg.json",
                 "contentVersion": "1.0.0.0"
-            }
-        },
+            },
         "parameters": {
             "NSGid":{
                 "value":"[reference('Microsoft.Resources/deploymentas/NSG-Deploy','2015-01-01').outputs.nsgid.value]"
             }
-        },
-        "dependsOn": [ "NSG-Deploy"]
+        } 
+    }
     }
     ],
     "outputs": {

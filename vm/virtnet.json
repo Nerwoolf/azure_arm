@@ -24,7 +24,7 @@
     }
   },
   "variables": {
-    "VNetName": "[concat(resourceGroup().name,'-vnet')]"
+    "VNetName": "[concat('vnet-',resourceGroup().name)]"
     
   },
   "resources": [
@@ -34,7 +34,7 @@
       "location": "[resourceGroup().location]",
       "apiVersion": "2016-03-30",
       "dependsOn": [ 
-        "[concat('Microsoft.Network/networkSecurityGroups/','nsg-',resourceGroup().name)]"
+        "NSG-Deploy"
       ],
       "properties": {
         "addressSpace": {

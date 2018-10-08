@@ -14,7 +14,7 @@
         },
         "TenantID": {
             "type":"String",
-            "defaultValue":"4fcf8cd5-73a8-4b57-bd0f-b85fe5560e8b"
+            "defaultValue":"[subscription().tenantId]"
         }
     },
     "variables": {
@@ -40,20 +40,37 @@
                 "name": "standard",
                 "family": "A"
             }
-        },
-        "resources": [
-          {
-            "type": "secrets",
-            "name": "[parameters('vmloginName')]",
-            "apiVersion": "2015-06-01",
-            "properties": {
-               "value": "[parameters('vmpassword')]"
-             },
-            "dependsOn": [
-               "[concat('Microsoft.KeyVault/vaults/', variables('keyVaultName'))]"
-             ]
-          }]
-    }
+        }
+    },
+    {
+        "type": "Microsoft.KeyVault/vaults/accessPolicies",
+        "name": "[concat(variables('keyVaultName'), '/add')]",
+        "apiVersion": "2018-02-14",
+        "properties": {
+          "accessPolicies": [
+            {
+              "tenantId": "[parameters('tenantId')]",
+              "objectId": "[variables('UserIDtoAccessVitalik')]",
+              "permissions": {
+                "secrets": "list",
+                "keys":"list"
+              }
+            }
+          ]
+        }
+    },
+    {
+        "name": "[parameters('vmloginName']",
+        "type": "Microsoft.KeyVault/vaults/secrets",
+        "apiVersion": "2018-02-14",
+        "properties": {
+          "value": "[parameters('vmpassword')]",
+          "contentType": "VMcred",
+          "attributes": {
+            "enabled": true
+          }
+        }
+      }
     ],
     "outputs": {}
 }

@@ -28,7 +28,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(variables('ArtifactoriLink'),'/vm/virt-with-pip')]",
+                "uri": "[concat(variables('ArtifactoriLink'),'/vm/virtnet-with-pip.json')]",
                 "contentVersion": "1.0.0.0"
             },
         "parameters": {
@@ -42,13 +42,23 @@
         "name": "StorageAccount",
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2015-01-01",
-        "tags": {
-            "displayName": ""
-        },
         "properties": {
             "mode": "Incremental",
             "templateLink": {
                 "uri": "[concat(variables('ArtifactoriLink'),'/vm/storageaccount.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {}
+        }
+    },
+    {
+        "name": "KeyVault",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(variables('ArtifactoriLink'),'/vm/keyvault.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {}

@@ -15,7 +15,7 @@
     }
   },
   "variables": {
-    "storaccName": "[concat('storacc', resourceGroup().name)]"
+    "storaccName": "[concat('storgeacc', resourceGroup().name)]"
   },
   "resources": [
     {

@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "subscription":{
+        "subscriptionID":{
             "type": "string",
             "defaultValue": "69f423df-297f-4625-b184-1cd5027cdba8"
         },
@@ -11,6 +11,10 @@
         },
         "vmpassword":{
             "type": "string"
+        },
+        "TenantID": {
+            "type":"String",
+            "defaultValue":"4fcf8cd5-73a8-4b57-bd0f-b85fe5560e8b"
         }
     },
     "variables": {
@@ -30,10 +34,10 @@
             "enabledForDeployment": true,
             "enabledForTemplateDeployment": true,
             "enabledForDiskEncryption": true,
-            "tenantId": "[subscription().tenantId]",
+            "tenantId": "[parameters('TenantID')]",
             "accessPolicies": [
                 {
-                    "tenantId": "[subscription().tenantId]",
+                    "tenantId": "[parameters('TenantID')]",
                     "objectId": "[variables('UserIDtoAccessVitalik')]",
                     "permissions": {
                        "keys": "all",
@@ -41,7 +45,7 @@
                    }
                 },
                 {
-                    "tenantId": "[subscription().tenantId]",
+                    "tenantId": "[parameters('TenantID')]",
                     "objectId": "[variables('UserIDtoAccessDdzianis')]",
                     "permissions": {
                        "keys": "all",

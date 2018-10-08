@@ -27,7 +27,8 @@
 }
   },
   "variables": {
-    "VNetName": "[concat('vnet-',resourceGroup().name)]"
+    "VNetName": "[concat('vnet-',resourceGroup().name)]",
+    "PublicIPName":"[concat('public-ip-',resourceGroup().name)]"
     
   },
   "resources": [
@@ -64,9 +65,21 @@
         
         ]
       }
-    }
+    },
+      {
+          "apiVersion": "2015-06-15",
+          "type": "Microsoft.Network/publicIPAddresses",
+          "name": "[variables('PublicIPName')]",
+          "location": "[resourceGroup().location]",
+          "properties": {
+              "publicIPAllocationMethod": "Dynamic"
+          }
+      }
   ],
   "outputs": {
-    
+    "PublicIPid":{
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/publicIPAddresses',variables('PublicIPName'))]"
+    }
   }
 }

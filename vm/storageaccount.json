@@ -30,5 +30,9 @@
     }
   ],
   "outputs": {
+    "StorAccId":{
+      "type": "string",
+      "value": "[resourceId('Microsoft.Storage/storageAccounts',variables('storaccName'))]"
+    } 
   }
 }

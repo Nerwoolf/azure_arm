@@ -33,9 +33,7 @@
       "type": "Microsoft.Network/virtualNetworks",
       "location": "[resourceGroup().location]",
       "apiVersion": "2016-03-30",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups',concat('nsg-',resourceGroup().name))]"
-      ],  
+      "dependsOn": [],  
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -54,7 +52,7 @@
             "properties": {
               "addressPrefix": "[parameters('FEaddressPrefix')]",
               "networkSecurityGroup": {
-               "id": "[reference('outputs').resourceID.value]"
+               "id": "[reference('NSG-Deplo').outputs.resourceID.value]"
               }   
             }
             

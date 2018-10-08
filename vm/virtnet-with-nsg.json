@@ -24,41 +24,17 @@
   }
   },
   "variables": {
-    "VNetName": "[concat('vnet-',resourceGroup().name)]",
-    "nsgname":"[concat('nsg-',resourceGroup().name)]",
-    "nsgRuleName":"IIS-8080"
+    "VNetName": "[concat('vnet-',resourceGroup().name)]"
     
   },
   "resources": [
-    {
-      "apiVersion": "2017-06-01",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[variables('nsgname')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-          "securityRules": [{
-              "name": "[variables('nsgRuleName')]",
-              "properties": {
-                  "description": "IIS-8080",
-                  "protocol": "tcp",
-                  "sourcePortRange": "*",
-                  "destinationPortRange": "8080",
-                  "sourceAddressPrefix": "*",
-                  "destinationAddressPrefix": "*",
-                  "access": "Allow",
-                  "priority": "100",
-                  "direction": "Inbound"
-              }
-          }]
-      }
-  },
   {
       "name": "[variables('VNetName')]",
       "type": "Microsoft.Network/virtualNetworks",
       "location": "[resourceGroup().location]",
       "apiVersion": "2016-03-30",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups',variables('nsgname'))]"
+        "[resourceId('Microsoft.Network/networkSecurityGroups',concat('nsg-',resourceGroup().name))]"
       ],  
       "properties": {
         "addressSpace": {
@@ -78,7 +54,7 @@
             "properties": {
               "addressPrefix": "[parameters('FEaddressPrefix')]",
               "networkSecurityGroup": {
-               "id": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('nsgname'))]"
+               "id": "[resourceId('Microsoft.Network/networkSecurityGroups',concat('nsg-',resourceGroup().name))]"
               }   
             }
             

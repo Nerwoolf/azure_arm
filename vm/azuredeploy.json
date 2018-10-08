@@ -32,7 +32,9 @@
             }
         },
         "parameters": {
-            "NSGid":"[reference('NSG-Deploy').outputs.nsgid.value]"
+            "NSGid":{
+                "value":"[reference('NSG-Deploy','2015-01-01').outputs.nsgid.value]"
+            }
         },
         "dependsOn": [ "NSG-Deploy"]
     }

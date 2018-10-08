@@ -1,7 +1,14 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        "vmloginName":{
+            "type": "string"
+        },
+        "vmPassword":{
+            "type": "string"
+        }
+    },
     "variables":{
         "ArtifactoriLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master"
     },
@@ -61,7 +68,14 @@
                 "uri": "[concat(variables('ArtifactoriLink'),'/vm/keyvault.json')]",
                 "contentVersion": "1.0.0.0"
             },
-            "parameters": {}
+            "parameters": {
+                "vmloginName":{
+                    "value":"[parameters('vmloginName')]"
+                },
+                "vmPassword":{
+                    "value":"[parameters('vmPassword')]"
+                }
+            }
         }
     }
     ],

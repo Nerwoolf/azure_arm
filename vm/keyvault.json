@@ -35,24 +35,7 @@
             "enabledForTemplateDeployment": true,
             "enabledForDiskEncryption": true,
             "tenantId": "[parameters('TenantID')]",
-            "accessPolicies": [
-                {
-                    "tenantId": "[parameters('TenantID')]",
-                    "objectId": "[variables('UserIDtoAccessVitalik')]",
-                    "permissions": {
-                       "keys": "all",
-                       "secrets": "all"
-                   }
-                },
-                {
-                    "tenantId": "[parameters('TenantID')]",
-                    "objectId": "[variables('UserIDtoAccessDdzianis')]",
-                    "permissions": {
-                       "keys": "all",
-                       "secrets": "all"
-                   }
-                }
-            ],
+            "accessPolicies":[],
             "sku": {
                 "name": "standard",
                 "family": "A"

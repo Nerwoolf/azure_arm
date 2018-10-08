@@ -33,7 +33,26 @@
             "parameters": {
                 "NSGid":{
                     "value": "Microsoft.Network/networkSecurityGroups/nsg-minsk"
-                    }
+                    },
+                    "VNetAddressPrefix":{
+                        "type":"string",
+                        "defaultValue": "192.168.0.0/16"
+                      },
+                    "FEsubnetName":{
+                        "defaultValue": "FESubnet",
+                        "type":"string"
+                      },
+                    "BESubnetName":{
+                      "type": "string",
+                      "defaultValue": "BESubnet"
+                    },
+                    "FEaddressPrefix":{
+                        "type":"string",
+                        "defaultValue": "192.168.0.0/24"
+                      },
+                    "BEaddressPrefix":{
+                        "type":"string",
+                        "defaultValue": "192.168.1.0/24"
             }
         },
         "dependsOn": [ "NSG-Deploy"]

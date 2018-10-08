@@ -1,10 +1,10 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        
+    "parameters": {},
+    "variables":{
+        "ArtifactoriLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master"
     },
-    "variables":{},
     "resources": [{
         "name": "NSG-Deploy",
         "type": "Microsoft.Resources/deployments",
@@ -12,7 +12,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/vm/nsg.json",
+                "uri": "[concat(variables('ArtifactoriLink'), '/vm/nsg.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {}
@@ -28,7 +28,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/vm/virtnet-with-nsg.json",
+                "uri": "[concat(variables('ArtifactoriLink'),'/vm/virt-with-pip')]",
                 "contentVersion": "1.0.0.0"
             },
         "parameters": {
@@ -48,7 +48,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(parameters('_artifactsLocation'), '//${NestedTemplate.json}', parameters('_artifactsLocationSasToken'))]",
+                "uri": "[concat(variables('ArtifactoriLink'),'/vm/storageaccount.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {}

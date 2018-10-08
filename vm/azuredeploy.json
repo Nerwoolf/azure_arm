@@ -29,13 +29,17 @@
             },
         "parameters": {
             "NSGid":{
-                "value":"[reference('Microsoft.Resources/deploymentas/NSG-Deploy','2015-01-01').outputs.nsgid.value]"
+                "value":"[reference('NSG-Deploy').outputs.resourceID.value]"
             }
         } 
     }
     }
     ],
     "outputs": {
+        "NSGid":{
+            "type":"string",
+            "value":"[reference('NSG-Deploy').outputs.resourceID.value]"
+        }
         
     }
 }

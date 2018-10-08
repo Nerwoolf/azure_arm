@@ -31,7 +31,10 @@
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {}
-        }
+        },
+        "dependsOn": [
+            "NSG-Deploy"
+        ]
     }
     ],
     "outputs": {

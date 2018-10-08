@@ -50,8 +50,12 @@
           {
             "name": "[parameters('FEsubnetName')]",
             "properties": {
-              "addressPrefix": "[parameters('FEaddressPrefix')]"
+              "addressPrefix": "[parameters('FEaddressPrefix')]",
+              "networkSecurityGroup": {
+                "id":"[reference('NSG-Deploy').outputs.resourceid.value]"
+              } 
             }
+            
           }
         
         ]

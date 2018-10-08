@@ -34,9 +34,6 @@
             "name": "[parameters('FEsubnetName')]",
             "properties": {
               "addressPrefix": "[parameters('FEaddressPrefix')]"
-            },
-            "networksecurytyGroup":{
-              "id":"[resourceId('Microsoft.Network/networkSecurityGroups/','nsg-minsk')]"
             }
           }
         

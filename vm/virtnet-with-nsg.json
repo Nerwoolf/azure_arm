@@ -52,7 +52,7 @@
             "properties": {
               "addressPrefix": "[parameters('FEaddressPrefix')]",
               "networkSecurityGroup": {
-               "id": "[reference('NSG-Deploy').outputs.resourceID.value]"
+               "id": "parameters('NSGid')"
               }   
             }
             

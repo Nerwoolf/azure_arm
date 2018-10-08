@@ -30,7 +30,9 @@
                 "uri": "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/vm/virtnet-with-nsg.json",
                 "contentVersion": "1.0.0.0"
             },
-            "parameters": {}
+            "parameters": {
+                "NSGid":"[reference('NSG-Deploy').outputs.resourceID.value]"
+            }
         },
         "dependsOn": [ "NSG-Deploy"]
     }

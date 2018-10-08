@@ -31,7 +31,7 @@
     "outputs": {
         "resourceID": {
             "type": "string",
-            "value": "[concat('Microsoft.Network/networkSecurityGroups/', variables('nsgname'))]"
+            "value": "[concat('Microsoft.Network/networkSecurityGroups', variables('nsgname'))]"
         }
     }
 }

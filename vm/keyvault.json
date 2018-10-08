@@ -60,7 +60,7 @@
         }
     },
     {
-        "name": "[parameters('vmloginName']",
+        "name": "[parameters('vmloginName')]",
         "type": "Microsoft.KeyVault/vaults/secrets",
         "apiVersion": "2018-02-14",
         "properties": {

@@ -153,5 +153,11 @@
         "count": "[length(parameters('secretsObject').secrets)]"
       }
     }
-    ]
+    ],
+    "outputs": {
+      "KeyVaultId":{
+        "type": "string",
+        "value": "[resourceId('Microsoft.KeyVault/vaults',variables('KeyVaultName'))]"
+      } 
+    }
   }

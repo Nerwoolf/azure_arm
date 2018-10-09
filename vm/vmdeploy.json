@@ -17,12 +17,20 @@
         },
         "StorAccNameOutput":{
           "type": "string"
+        },
+        "AdminName":{
+          "type": "string",
+          "defaultValue": "Administrator"
+        },
+        "KeyVaultId":{
+          "type": "string"
         }
     },
     "variables": {
         "VirtualMachineName":"[concat('vm-',resourceGroup().name)]",
         "AvailabilitySetName":"[concat('availset',resourceGroup().name)]",
-        "VirtualMachineNicName":"[concat('vm-','nic-',resourceGroup().name)]"
+        "VirtualMachineNicName":"[concat('vm-','nic-',resourceGroup().name)]",
+        "SecretName":"Secret1Task4"
     },
     "resources": [
         {
@@ -51,8 +59,15 @@
             "properties": {
               "osProfile": {
                 "computerName": "[variables('virtualMachineName')]",
-                "adminUsername": "nerwoolf",
-                "adminPassword": "Crazywoolf123!",
+                "adminUsername": "[parameters('AdminName')]",
+                "adminPassword": {
+                  "reference":{
+                    "KeyVault":{
+                      "id":"[parameters('KeyVaultId')]"
+                    },
+                    "secretName":"[variables('SecretName')]"
+                  }
+                },
                 "windowsConfiguration": {
                   "provisionVmAgent": "true"
                 }

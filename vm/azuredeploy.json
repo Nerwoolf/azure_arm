@@ -86,6 +86,9 @@
                 },
                 "StorAccNameOutput":{
                     "value": "[reference('StorageAccount').outputs.StorAccNameOutput.value]"
+                },
+                "KeyVaultId":{
+                    "value": "[reference('KeyVault').outputs.KeyVaultId.vaule]"
                 }
             }
         }

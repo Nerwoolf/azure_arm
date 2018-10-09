@@ -3,8 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {},
     "variables": {
-        "nsgname":"[concat('nsg-',resourceGroup().name)]",
-        "nsgRuleName":"IIS-8080"
+        "nsgname":"[concat('nsg-',resourceGroup().name)]"
     },
     "resources": [{
         "apiVersion": "2017-06-01",
@@ -13,7 +12,7 @@
         "location": "[resourceGroup().location]",
         "properties": {
             "securityRules": [{
-                "name": "[variables('nsgRuleName')]",
+                "name": "IIS-8080",
                 "properties": {
                     "description": "IIS-8080",
                     "protocol": "tcp",
@@ -25,7 +24,22 @@
                     "priority": "100",
                     "direction": "Inbound"
                 }
-            }]
+            },
+            {
+                "name": "RDP-3389",
+                "properties": {
+                    "description": "RDP-3389",
+                    "protocol": "tcp",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "3389",
+                    "sourceAddressPrefix": "*",
+                    "destinationAddressPrefix": "*",
+                    "access": "Allow",
+                    "priority": "101",
+                    "direction": "Inbound"
+                }
+            }
+        ]
         }
     }],
     "outputs": {

@@ -14,7 +14,7 @@
     "variables": {
         "VirtualMachineName":"[concat('vm-',resourceGroup().name)]",
         "AvailabilitySetName":"[concat('availset',resourceGroup().name)]",
-        "VirtualMachineNicName":"[concat('vm-',resourceGroup().name,'-nic')]"
+        "VirtualMachineNicName":"[concat('vm-','nic-',resourceGroup().name)]"
     },
     "resources": [
         {
@@ -25,7 +25,6 @@
             "comments": "This is the virtual machine that you're building.",
             "dependsOn": [
               "[variables('nic1')]",
-              "[variables('nic2')]",
               "[variables('diagStorageAccountName')]"
             ],
             "properties": {
@@ -92,14 +91,11 @@
                     },
                     "privateIPAllocationMethod": "Dynamic",
                     "publicIpAddress": {
-                      "id": "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIpAddressName'))]"
+                      "id": "[resourceId('Microsoft.Network/publicIpAddresses', concat('public-ip-',resourceGroup().name))]"
                     }
                   }
                 }
-              ],
-              "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
-              }
+              ]
             }
           }
        ],

@@ -1,0 +1,17 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {},
+    "resources": [],
+    "outputs": {
+        "refIDobj":{
+            "type":"string",
+            "value":"[resourceId('Microsoft.Network/publicIpAddresses', concat('public-ip-',resourceGroup().name))]"
+        },
+        "reference":{
+            "type": "string",
+            "value": "[reference('/subscriptions/69f423df-297f-4625-b184-1cd5027cdba8/resourceGroups/minsk/providers/Microsoft.Network/publicIpAddresses/public-ip-minsk')]"
+        }
+    }
+}

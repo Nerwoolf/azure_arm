@@ -4,7 +4,7 @@
     "parameters": {
         "vmsize":{
             "type":"string",
-            "defaultValue": "Standard_A2",
+            "defaultValue": "Standard_Ds2",
             "metadata": {
                 "description":"Virtual machine size"
             }
@@ -33,6 +33,10 @@
             "properties": {
               "platformFaultDomainCount":1,
               "platformUpdateDomainCount":1
+            },
+            "sku": {
+              "name": "AvailSet",
+              "tier": "Aligned"
             }
         },
         {

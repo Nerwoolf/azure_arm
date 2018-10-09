@@ -5,19 +5,13 @@
         "VMName":{
             "type":"string"
         },
-        "PSAritfactLink":{
+        "PSArtifactLink":{
             "type":"string"
-        },
-        "configurationFunction": {
-            "type": "string",
-            "defaultValue": "iissettingup.ps1\\iissettingup",
-            "metadata": {
-              "description": "DSC configuration function to call"
-            }
         }
+        
     },
     "variables": {
-
+      "configurationFunction": "iissettingup.ps1\\iissettingup"
     },
     "resources": [    
         {
@@ -31,8 +25,8 @@
           "typeHandlerVersion": "2.19",
           "autoUpgradeMinorVersion": true,
           "settings": {
-            "ModulesUrl": "[parameters('PSAritfactLink')]",
-            "ConfigurationFunction": "[parameters('configurationFunction')]",
+            "ModulesUrl": "[parameters('PSArtifactLink')]",
+            "ConfigurationFunction": "[variables('configurationFunction')]",
             "Properties": {
               "MachineName": "[parameters('VMName')]"
             }

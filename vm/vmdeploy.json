@@ -28,12 +28,14 @@
         {
             "type": "Microsoft.Compute/availabilitySets",
             "name": "[variables('AvailabilitySetName')]",
-            "apiVersion": "2015-06-15",
+            "apiVersion": "2016-04-30-preview",
             "location": "[resourceGroup().location]",
+            "sku":{
+              "name": "aligned"
+            },
             "properties": {
               "platformFaultDomainCount":1,
-              "platformUpdateDomainCount":1,
-              "managed":true
+              "platformUpdateDomainCount":1
             }
         },
         {

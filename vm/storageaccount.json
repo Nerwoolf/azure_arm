@@ -30,7 +30,7 @@
     }
   ],
   "outputs": {
-    "":{
+    "StorAccNameOutput":{
       "type": "string",
       "value": "[variables('storaccName')]"
     }   

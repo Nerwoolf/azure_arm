@@ -4,7 +4,7 @@
     "parameters": {
         "vmsize":{
             "type":"string",
-            "defaultValue": "Standard_D2",
+            "defaultValue": "Standard_A2",
             "metadata": {
                 "description":"Virtual machine size"
             }

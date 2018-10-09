@@ -33,10 +33,6 @@
             "properties": {
               "platformFaultDomainCount":1,
               "platformUpdateDomainCount":1
-            },
-            "sku": {
-              "name": "AvailSet",
-              "tier": "Standard"
             }
         },
         {

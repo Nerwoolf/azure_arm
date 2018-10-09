@@ -14,6 +14,7 @@
             "metadata": {
               "description": "DSC configuration function to call"
             }
+        }
     },
     "variables": {
 
@@ -40,5 +41,4 @@
       }
     ],
     "outputs": {}
-}
 }

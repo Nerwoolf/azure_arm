@@ -22,14 +22,9 @@
           "type": "string",
           "defaultValue": "Administrator"
         },
-        "VMPassword":{
-          "type":"String",
-          "defaultValue": "Casdasfksfmksldf123!"
-        }
-        ,
-        "KeyVaultId":{
-          "type": "string"
-        }
+        "AdminPassword": {
+          "type": "securestring"
+      }
     },
     "variables": {
         "VirtualMachineName":"[concat('vm-',resourceGroup().name)]",
@@ -65,7 +60,7 @@
               "osProfile": {
                 "computerName": "[variables('virtualMachineName')]",
                 "adminUsername": "[parameters('AdminName')]",
-                "adminPassword": "[parameters('VMPassword')]",
+                "adminPassword": "[parameters('AdminPassword')]",
                 "windowsConfiguration": {
                   "provisionVmAgent": "true"
                 }

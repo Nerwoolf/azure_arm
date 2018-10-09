@@ -5,7 +5,8 @@
        
     },
     "variables":{
-       "ArtifactoriLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master"
+       "ArtifactoriLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master",
+       "SecretName":"Secret1Task4"
     },
     "resources":[
        {
@@ -93,11 +94,13 @@
                 "StorAccNameOutput":{
                    "value":"[reference('StorageAccount').outputs.StorAccNameOutput.value]"
                 },
-                "KeyVaultId":{
-                   "value":"[reference('KeyVault').outputs.KeyVaultId.vaule]"
-                },
-                "VMPassword":{
-                    "value":"[parameters('AdminPassword')]"
+                "adminPassword":{
+                    "reference": {
+                        "keyVault": {
+                        "id": "[reference('KeyVault').outputs.KeyVaultId.value]"
+                        },
+                        "secretName": "[variables('SecretName')]"
+                    }
                 }
              }
           }

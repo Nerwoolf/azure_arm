@@ -2,7 +2,7 @@
     "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion":"1.0.0.0",
     "parameters":{
- 
+       
     },
     "variables":{
        "ArtifactoriLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master"
@@ -95,6 +95,9 @@
                 },
                 "KeyVaultId":{
                    "value":"[reference('KeyVault').outputs.KeyVaultId.vaule]"
+                },
+                "VMPassword":{
+                    "value":"[parameters('AdminPassword')]"
                 }
              }
           }

@@ -32,7 +32,7 @@
             },
         "parameters": {
             "NSGid":{
-                "value":"[resourceId('Microsoft.Network/networkSecurityGroups', concat('nsg-',resourceGroup().name))]"
+                "value":"[reference('NSG-Deploy').outputs.resourceID.value]"
             }
         } 
     }

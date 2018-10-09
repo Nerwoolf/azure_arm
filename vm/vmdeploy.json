@@ -32,10 +32,8 @@
             "location": "[resourceGroup().location]",
             "properties": {
               "platformFaultDomainCount":1,
-              "platformUpdateDomainCount":1
-            },
-            "sku": {
-              "name": "Aligned"
+              "platformUpdateDomainCount":1,
+              "managed":true
             }
         },
         {

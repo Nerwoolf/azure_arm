@@ -6,14 +6,6 @@
       "type":"string",
       "defaultValue": "192.168.0.0/16"
     },
-  "FEsubnetName":{
-      "defaultValue": "FESubnet",
-      "type":"string"
-    },
-  "BESubnetName":{
-    "type": "string",
-    "defaultValue": "BESubnet"
-  },
   "FEaddressPrefix":{
       "type":"string",
       "defaultValue": "192.168.0.0/24"
@@ -21,12 +13,14 @@
   "BEaddressPrefix":{
       "type":"string",
       "defaultValue": "192.168.1.0/24"
-  },
+    },
   "NSGId":{
-    "type":"string"
-}
+    "type": "string"
+  }
   },
   "variables": {
+    "FEsubnetName":"FESubnet",
+    "BESubnetName":"BESubnet",
     "VNetName": "[concat('vnet-',resourceGroup().name)]",
     "PublicIPName":"[concat('public-ip-',resourceGroup().name)]"
     
@@ -46,18 +40,15 @@
         },
         "subnets": [
           {
-            "name": "[parameters('BESubnetName')]",
+            "name": "[variables('BESubnetName')]",
             "properties": {
               "addressPrefix": "[parameters('BEaddressPrefix')]"
             }
           },
           {
-            "name": "[parameters('FEsubnetName')]",
+            "name": "[variables('FEsubnetName')]",
             "properties": {
-              "addressPrefix": "[parameters('FEaddressPrefix')]",
-              "networkSecurityGroup": {
-                "id": "[parameters('NSGId')]"
-              }
+              "addressPrefix": "[parameters('FEaddressPrefix')]"
                
             }
             
@@ -79,7 +70,11 @@
   "outputs": {
     "PublicIPid":{
       "type": "string",
-      "value": "[resourceId('Microsoft.Network/publicIPAddresses',variables('PublicIPName'))]"
+      "value": "[resourceId('Microsoft.Network/publicIPAddresses', variables('PublicIPName'))]"
+    },
+    "SubnetID":{
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets',variables('VNetName'), variables('FEsubnetName'))]"
     }
   }
 }

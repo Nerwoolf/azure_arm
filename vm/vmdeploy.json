@@ -8,8 +8,16 @@
             "metadata": {
                 "description":"Virtual machine size"
             }
+        },
+        "SubnetId":{
+          "type": "string"
+        },
+        "PublicIPid":{
+          "type":"string"
+        },
+        "StorAccNameOutput":{
+          "type": "string"
         }
-        
     },
     "variables": {
         "VirtualMachineName":"[concat('vm-',resourceGroup().name)]",
@@ -18,20 +26,30 @@
     },
     "resources": [
         {
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[variables('AvailabilitySetName')]",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "properties": {
+              "platformFaultDomainCount":1,
+              "platformUpdateDomainCount":1
+            }
+        },
+        {
             "name": "[variables('VirtualMachineName')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2017-03-30",
             "location": "[resourceGroup().location]",
             "comments": "This is the virtual machine that you're building.",
             "dependsOn": [
-              "[variables('nic1')]",
-              "[variables('diagStorageAccountName')]"
+              "[variables('VirtualMachineNicName')]",
+              "[variables('AvailabilitySetName')]"
             ],
             "properties": {
               "osProfile": {
                 "computerName": "[variables('virtualMachineName')]",
-                "adminUsername": "[parameters('adminUsername')]",
-                "adminPassword": "[parameters('adminPassword')]",
+                "adminUsername": "nerwoolf",
+                "adminPassword": "Crazywoolf123!",
                 "windowsConfiguration": {
                   "provisionVmAgent": "true"
                 }
@@ -57,21 +75,18 @@
                     "properties": {
                       "primary": true
                     },
-                    "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nic1'))]"
-                  },
-                  {
-                    "properties": {
-                      "primary": false
-                    },
-                    "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nic2'))]"
+                    "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('VirtualMachineNicName'))]"
                   }
                 ]
               },
               "diagnosticsProfile": {
                 "bootDiagnostics": {
                   "enabled": true,
-                  "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountName')), '2017-06-01').primaryEndpoints['blob']]"
+                  "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts', parameters('StorAccNameOutput')), '2017-06-01').primaryEndpoints['blob']]"
                 }
+              },
+              "availabilitySet": {
+                "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('AvailabilitySetName'))]"
               }
             }
           },
@@ -84,14 +99,14 @@
             "properties": {
               "ipConfigurations": [
                 {
-                  "name": "ipconfig1",
+                  "name": "ipconfig",
                   "properties": {
                     "subnet": {
-                      "id": "[variables('subnet1Ref')]"
+                      "id": "[parameters('SubnetId')]"
                     },
                     "privateIPAllocationMethod": "Dynamic",
                     "publicIpAddress": {
-                      "id": "[resourceId('Microsoft.Network/publicIpAddresses', concat('public-ip-',resourceGroup().name))]"
+                      "id": "[parameters('PublicIPid')]"
                     }
                   }
                 }

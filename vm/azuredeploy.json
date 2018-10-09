@@ -21,7 +21,7 @@
         }
     },
     {
-        "name": "VirtNet-Deploy",
+        "name": "VirtualNetwork",
         "type": "Microsoft.Resources/deployments",
         "apiVersion": "2015-01-01",
         "properties": {
@@ -61,6 +61,33 @@
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {}
+        }
+    },
+    {
+        "name": "VirtualMachine",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+            "KeyVault",
+            "VirtualNetwork"
+        ],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(variables('ArtifactoriLink'),'/vm/vmdeploy.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {
+                "SubnetID":{
+                    "value": "[reference('VirtualNetwork').outputs.SubnetID.value]"
+                },
+                "PublicIPid":{
+                    "value": "[reference('VirtualNetwork').outputs.PublicIPid.value]"
+                },
+                "StorAccNameOutput":{
+                    "value": "[reference('StorageAccount').outputs.StorAccNameOutput.value]"
+                }
+            }
         }
     }
     ],

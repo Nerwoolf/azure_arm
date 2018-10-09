@@ -62,7 +62,6 @@ else{
 }
 
 
-
 # Start the deployment
 Write-Host "Starting deployment...";
 if(Test-Path $parametersFilePath) {

@@ -29,8 +29,7 @@
     "variables": {
         "VirtualMachineName":"[concat('vm-',resourceGroup().name)]",
         "AvailabilitySetName":"[concat('availset',resourceGroup().name)]",
-        "VirtualMachineNicName":"[concat('vm-','nic-',resourceGroup().name)]",
-        "SecretName":"Secret1Task4"
+        "VirtualMachineNicName":"[concat('vm-','nic-',resourceGroup().name)]"
     },
     "resources": [
         {
@@ -125,5 +124,10 @@
             }
           }
        ],
-    "outputs": {}
+    "outputs": {
+      "VMname":{
+        "type":"String",
+        "value":"[variables('VirtualMachineName')]"
+      }
+    }
 }

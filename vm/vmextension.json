@@ -1,0 +1,44 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VMName":{
+            "type":"string"
+        },
+        "ArtifactoriLink":{
+            "type":"string"
+        },
+        "configurationFunction": {
+            "type": "string",
+            "defaultValue": "iissettingup.ps1\\iissettingup",
+            "metadata": {
+              "description": "DSC configuration function to call"
+            }
+    },
+    "variables": {
+
+    },
+    "resources": [    
+        {
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "name": "[parameters('VMName')]",
+        "apiVersion": "2015-05-01-preview",
+        "properties": {
+          "publisher": "Microsoft.Powershell",
+          "type": "DSC",
+          "typeHandlerVersion": "2.19",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "ModulesUrl": "[concat(parameters('ArtifactoriLink'), '/vm/vmextension.json')]",
+            "ConfigurationFunction": "[parameters('configurationFunction')]",
+            "Properties": {
+              "MachineName": "[parameters('VMName')]"
+            }
+          },
+          "protectedSettings": null
+        }
+      }
+    ],
+    "outputs": {}
+}
+}

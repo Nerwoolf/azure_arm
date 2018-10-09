@@ -104,6 +104,26 @@
                 }
              }
           }
+       },
+       {
+           "name": "VMExtension",
+           "type": "Microsoft.Resources/deployments",
+           "apiVersion": "2015-01-01",
+           "properties": {
+               "mode": "Incremental",
+               "templateLink": {
+                   "uri": "[concat(variables('ArtifactoriLink'), '/vm/vmextension.json')]",
+                   "contentVersion": "1.0.0.0"
+               },
+               "parameters": {
+                   "VMName":{
+                       "value":"[reference('VirtualMachine').outputs.VMName.value]"
+                   },
+                   "ArtifactoriLink":{
+                       "value":"[variables('ArtifactoriLink')]"
+                   }
+               }
+           }
        }
     ],
     "outputs":{

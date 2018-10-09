@@ -20,7 +20,7 @@
         },
         "AdminName":{
           "type": "string",
-          "defaultValue": "Administrator"
+          "defaultValue": "nerwoolf"
         },
         "AdminPassword": {
           "type": "securestring"

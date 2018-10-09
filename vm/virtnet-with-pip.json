@@ -48,7 +48,10 @@
           {
             "name": "[variables('FEsubnetName')]",
             "properties": {
-              "addressPrefix": "[parameters('FEaddressPrefix')]"
+              "addressPrefix": "[parameters('FEaddressPrefix')]",
+              "networkSecurityGroup": {
+                "id": "[parameters('NSGId')]"
+              }
                
             }
             

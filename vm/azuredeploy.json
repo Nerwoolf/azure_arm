@@ -1,99 +1,106 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-
+    "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion":"1.0.0.0",
+    "parameters":{
+ 
     },
     "variables":{
-        "ArtifactoriLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master"
+       "ArtifactoriLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master"
     },
-    "resources": [{
-        "name": "NSG-Deploy",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2015-01-01",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(variables('ArtifactoriLink'), '/vm/nsg.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-            "parameters": {}
-        }
-    },
-    {
-        "name": "VirtualNetwork",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2015-01-01",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(variables('ArtifactoriLink'),'/vm/virtnet-with-pip.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-        "parameters": {
-            "NSGid":{
-                "value":"[reference('NSG-Deploy').outputs.resourceID.value]"
-            }
-        } 
-    }
-    },
-    {
-        "name": "StorageAccount",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2015-01-01",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(variables('ArtifactoriLink'),'/vm/storageaccount.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-            "parameters": {}
-        }
-    },
-    {
-        "name": "KeyVault",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2015-01-01",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(variables('ArtifactoriLink'),'/vm/keyvault.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-            "parameters": {}
-        }
-    },
-    {
-        "name": "VirtualMachine",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2015-01-01",
-        "dependsOn": [
-            "VirtualNetwork"
-        ],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(variables('ArtifactoriLink'),'/vm/vmdeploy.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-            "parameters": {
+    "resources":[
+       {
+          "name":"NSG-Deploy",
+          "type":"Microsoft.Resources/deployments",
+          "apiVersion":"2015-01-01",
+          "properties":{
+             "mode":"Incremental",
+             "templateLink":{
+                "uri":"[concat(variables('ArtifactoriLink'), '/vm/nsg.json')]",
+                "contentVersion":"1.0.0.0"
+             },
+             "parameters":{
+ 
+             }
+          }
+       },
+       {
+          "name":"VirtualNetwork",
+          "type":"Microsoft.Resources/deployments",
+          "apiVersion":"2015-01-01",
+          "properties":{
+             "mode":"Incremental",
+             "templateLink":{
+                "uri":"[concat(variables('ArtifactoriLink'),'/vm/virtnet-with-pip.json')]",
+                "contentVersion":"1.0.0.0"
+             },
+             "parameters":{
+                "NSGid":{
+                   "value":"[reference('NSG-Deploy').outputs.resourceID.value]"
+                }
+             }
+          }
+       },
+       {
+          "name":"StorageAccount",
+          "type":"Microsoft.Resources/deployments",
+          "apiVersion":"2015-01-01",
+          "properties":{
+             "mode":"Incremental",
+             "templateLink":{
+                "uri":"[concat(variables('ArtifactoriLink'),'/vm/storageaccount.json')]",
+                "contentVersion":"1.0.0.0"
+             },
+             "parameters":{
+ 
+             }
+          }
+       },
+       {
+          "name":"KeyVault",
+          "type":"Microsoft.Resources/deployments",
+          "apiVersion":"2015-01-01",
+          "properties":{
+             "mode":"Incremental",
+             "templateLink":{
+                "uri":"[concat(variables('ArtifactoriLink'),'/vm/keyvault.json')]",
+                "contentVersion":"1.0.0.0"
+             },
+             "parameters":{
+ 
+             }
+          }
+       },
+       {
+          "name":"VirtualMachine",
+          "type":"Microsoft.Resources/deployments",
+          "apiVersion":"2015-01-01",
+          "dependsOn":[
+             "VirtualNetwork"
+          ],
+          "properties":{
+             "mode":"Incremental",
+             "templateLink":{
+                "uri":"[concat(variables('ArtifactoriLink'),'/vm/vmdeploy.json')]",
+                "contentVersion":"1.0.0.0"
+             },
+             "parameters":{
                 "SubnetID":{
-                    "value": "[reference('VirtualNetwork').outputs.SubnetID.value]"
+                   "value":"[reference('VirtualNetwork').outputs.SubnetID.value]"
                 },
                 "PublicIPid":{
-                    "value": "[reference('VirtualNetwork').outputs.PublicIPid.value]"
+                   "value":"[reference('VirtualNetwork').outputs.PublicIPid.value]"
                 },
                 "StorAccNameOutput":{
-                    "value": "[reference('StorageAccount').outputs.StorAccNameOutput.value]"
+                   "value":"[reference('StorageAccount').outputs.StorAccNameOutput.value]"
                 },
                 "KeyVaultId":{
-                    "value": "[reference('KeyVault').outputs.KeyVaultId.vaule]"
+                   "value":"[reference('KeyVault').outputs.KeyVaultId.vaule]"
                 }
-            }
-        }
-    }
+             }
+          }
+       }
     ],
-    "outputs": {
-        
+    "outputs":{
+ 
     }
-}
+ }

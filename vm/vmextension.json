@@ -22,7 +22,7 @@
     "resources": [    
         {
         "type": "Microsoft.Compute/virtualMachines/extensions",
-        "name": "IISSetup",
+        "name": "[concat(parameters('VMName'),'/ExtensionIISDsc')]",
         "location":"[resourceGroup().location]",
         "apiVersion": "2015-05-01-preview",
         "properties": {

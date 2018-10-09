@@ -6,6 +6,7 @@
     },
     "variables":{
        "ArtifactoriLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master",
+       "PSExtestionLink":"https://github.com/Nerwoolf/azure_arm/blob/master/vm/iissettingup.ps1.zip",
        "SecretName":"Secret1Task4"
     },
     "resources":[
@@ -119,8 +120,8 @@
                    "VMName":{
                        "value":"[reference('VirtualMachine').outputs.VMName.value]"
                    },
-                   "ArtifactoriLink":{
-                       "value":"[variables('ArtifactoriLink')]"
+                   "PSAritfactLink":{
+                       "value":"[variables('PSExtestionLink')]"
                    }
                }
            }

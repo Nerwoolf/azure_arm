@@ -5,7 +5,7 @@
         "VMName":{
             "type":"string"
         },
-        "ArtifactoriLink":{
+        "PSAritfactLink":{
             "type":"string"
         },
         "configurationFunction": {
@@ -31,7 +31,7 @@
           "typeHandlerVersion": "2.19",
           "autoUpgradeMinorVersion": true,
           "settings": {
-            "ModulesUrl": "[concat(parameters('ArtifactoriLink'), '/vm/iissettingup.ps1.zip')]",
+            "ModulesUrl": "[parameters('PSAritfactLink')]",
             "ConfigurationFunction": "[parameters('configurationFunction')]",
             "Properties": {
               "MachineName": "[parameters('VMName')]"

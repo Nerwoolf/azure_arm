@@ -4,12 +4,15 @@
     "parameters":{
         "containerSASToken":{
             "type": "string"
+        },
+        "ARMlink":{
+            "type": "string"
         }
     },
     "variables":{
-       "ArtifactoriLink":"https://storaccminskwesteurope.blob.core.windows.net/automationminskwesteurope/",
+       "ArtifactoriLink":"[parameters('ARMlink')]",
        "SecretName":"Secret1Task4",
-       "PSLink":"[concat('https://storaccminskwesteurope.blob.core.windows.net/automationminskwesteurope/iissettingup.ps1.zip',parameters('containerSASToken'))]"
+       "PSLink":"[concat(parameters('ARMlink'),'iissettingup.ps1.zip',parameters('containerSASToken'))]"
     },
     "resources":[
        {

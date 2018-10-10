@@ -28,18 +28,16 @@ param(
     [string]$subscriptionId = "69f423df-297f-4625-b184-1cd5027cdba8",
 
     [Parameter(Mandatory = $True)]
-    [string]$resourceGroupName="minsk",
+    [string]$resourceGroupName="moscow",
     
     [Parameter(Mandatory = $True)]
-    [string]$resourceGroupForArtifactStorageName="minsk",
+    [string]$resourceGroupForArtifactStorageName="london",
  
     [Parameter(Mandatory = $true)]
     [string]$resourceGroupLocation="westeurope",
 
     [Parameter(Mandatory = $false)]
     [string]$deploymentName = "Task 4 - Deploy ARM's",
-
-    [string]$templateUri = "https://storaccminskwesteurope.blob.core.windows.net/automationminskwesteurope/azuredeploy.json",
 
     [string]$parametersFilePath = "s.json"
 )
@@ -61,9 +59,11 @@ begin{
                                     
                                 }
     $storAccName = $("storacc"+$resourceGroupName+$resourceGroupLocation).ToLower()
-    $storAccContainerName = ("automation{0}{1}" -f $resourceGroupName, $resourceGroupLocation)
+    $storAccContainerName = ("automation{0}{1}" -f $resourceGroupForArtifactStorageName, $resourceGroupLocation)
     $tempDownloadFolder = "$env:USERPROFILE\desktop\temp"
     $resourceGroupName = $resourceGroupName.ToLower()
+    $resourceGroupForArtifactStorageName = $resourceGroupForArtifactStorageName.ToLower()
+    $ARMtemplateUri = ("https://{0}.blob.core.windows.net/{1}/" -f $storAccName, $storAccContainerName)
 }
 process {
     
@@ -111,7 +111,7 @@ process {
     }
     Invoke-WebRequest -Uri $DSCGithubPrefix -OutFile "$tempDownloadFolder\iissettingup.ps1.zip"
     $files =  Get-ChildItem  -Path $tempDownloadFolder
-    $files.FullName | ForEach-Object {Set-AzureStorageBlobContent -Container $storAccContainerName -File $_}
+    $files.FullName | ForEach-Object {Set-AzureStorageBlobContent -Container $storAccContainerName -force -File $_}
     
     # Create SAS token to storage account
     
@@ -122,10 +122,10 @@ process {
     # Start the deployment
     Write-Host "Starting deployment...";
     if (Test-Path $parametersFilePath) {
-        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri ($templateUri+$sasToken) -TemplateParameterFile $parametersFilePath -containerSASToken $sasToken
+        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri ($ARMtemplateUri+'azuredeploy.json'+$sasToken) -TemplateParameterFile $parametersFilePath -containerSASToken $sasToken -ARMlink $ARMtemplateUri
     }
     else {
-        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri ($templateUri+$sasToken) -containerSASToken $sasToken
+        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri ($ARMtemplateUri+'azuredeploy.json'+$sasToken) -containerSASToken $sasToken -ARMlink $ARMtemplateUri
     }
     Remove-Item -Path $tempDownloadFolder -Force
 }

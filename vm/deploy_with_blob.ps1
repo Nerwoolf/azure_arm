@@ -36,7 +36,7 @@ param(
     [Parameter(Mandatory = $false)]
     [string]$deploymentName = "Task 4 - Deploy ARM's",
 
-    [string]$templateUri = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/vm/azuredeploy.json",
+    [string]$templateUri = "https://storaccminskwesteurope.blob.core.windows.net/automationminskwesteurope/azuredeploy.json",
 
     [string]$parametersFilePath = "s.json"
 )

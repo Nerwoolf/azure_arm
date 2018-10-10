@@ -118,7 +118,7 @@
                },
                "parameters": {
                    "VMName":{
-                       "value":"[reference('VirtualMachine').outputs.VMName.value]"
+                       "value":"[reference('VirtualMachine').outputs.VMname.value]"
                    },
                    "PSArtifactLink":{
                        "value":"[variables('PSLink')]"

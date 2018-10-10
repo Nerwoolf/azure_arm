@@ -29,6 +29,9 @@ param(
 
     [Parameter(Mandatory = $True)]
     [string]$resourceGroupName="minsk",
+    
+    [Parameter(Mandatory = $True)]
+    [string]$resourceGroupForArtifactStorageName="minsk",
  
     [Parameter(Mandatory = $true)]
     [string]$resourceGroupLocation="westeurope",
@@ -83,9 +86,18 @@ process {
         Write-Host "Using existing resource group $resourceGroupName";
     }
 
+    $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupForArtifactStorageName -ErrorAction SilentlyContinue
+    if (!$resourceGroup) {
+        Write-Host "Creating resource group '$resourceGroupForArtifactStorageName' in location '$resourceGroupLocation'";
+        New-AzureRmResourceGroup -Name $resourceGroupForArtifactStorageName -Location $resourceGroupLocation
+    }
+    else {
+        Write-Host "Using existing resource group $resourceGroupForArtifactStorageName";
+    }
+
     # Create storage for artifatcs 
-    New-AzureRmStorageAccount -ResourceGroupName $resourceGroupName -Location $resourceGroupLocation -Name $storAccName -SkuName Standard_LRS 
-    Set-AzureRmCurrentStorageAccount -ResourceGroupName $resourceGroupName -Name $storAccName
+    New-AzureRmStorageAccount -ResourceGroupName $resourceGroupForArtifactStorageName -Location $resourceGroupLocation -Name $storAccName -SkuName Standard_LRS 
+    Set-AzureRmCurrentStorageAccount -ResourceGroupName $resourceGroupForArtifactStorageName -Name $storAccName
     
     New-AzureStorageContainer -Name $storAccContainerName -Permission Off
     

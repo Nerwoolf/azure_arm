@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "MachineName":{
+        "VMName":{
             "type":"string"
         },
         "PSArtifactLink":{
@@ -16,7 +16,7 @@
     "resources": [    
         {
         "type": "Microsoft.Compute/virtualMachines/extensions",
-        "name": "[concat(parameters('MachineName'),'/ExtensionIISDsc')]",
+        "name": "[concat(parameters('VMName'),'/ExtensionIISDsc')]",
         "location":"[resourceGroup().location]",
         "apiVersion": "2015-05-01-preview",
         "properties": {
@@ -28,7 +28,7 @@
             "ModulesUrl": "[parameters('PSArtifactLink')]",
             "ConfigurationFunction": "[variables('configurationFunction')]",
             "Properties": {
-              "MachineName": "[parameters('MachineName')]"
+              "MachineName": "[parameters('VMName')]"
             }
           },
           "protectedSettings": null

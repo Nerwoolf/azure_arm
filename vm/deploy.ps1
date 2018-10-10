@@ -36,7 +36,7 @@ param(
  [Parameter(Mandatory=$false)]
  [string]$deploymentName="Task 4 - Deploy ARM's",
 
- [string]$templateURI = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/vm/azuredeploy.json",
+ [string]$templateFilePath = "azuredeploy.json",
 
  [string]$parametersFilePath = "s.json"
 )
@@ -54,18 +54,18 @@ if(!$SubCheck){
 $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
 if(!$resourceGroup)
 {
-    Write-Host -ForegroundColor Green "Creating resource group '$resourceGroupName' in location '$resourceGroupLocation'";
+    Write-Host "Creating resource group '$resourceGroupName' in location '$resourceGroupLocation'";
     New-AzureRmResourceGroup -Name $resourceGroupName -Location $resourceGroupLocation
 }
 else{
-    Write-Host -ForegroundColor Green "Using existing resource group '$resourceGroupName'";
+    Write-Host "Using existing resource group $resourceGroupName";
 }
 
 
 # Start the deployment
-Write-Host -ForegroundColor Green "Starting deployment...";
+Write-Host "Starting deployment...";
 if(Test-Path $parametersFilePath) {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateURI -TemplateParameterFile $parametersFilePath;
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath;
 } else {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateURI;
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath;
 }

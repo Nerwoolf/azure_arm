@@ -28,7 +28,7 @@
             "ModulesUrl": "[parameters('PSArtifactLink')]",
             "ConfigurationFunction": "[variables('configurationFunction')]",
             "Properties": {
-              "VMName": "[parameters('VMName')]"
+              "MachineName": "[parameters('VMName')]"
             }
           },
           "protectedSettings": null

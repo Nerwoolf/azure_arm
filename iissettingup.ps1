@@ -1,6 +1,6 @@
 Configuration iissettingup
 {   
-	param ($MachineName)
+	param ($MachineName="localhost")
 	Node $MachineName
 	{ 
 		WindowsFeature InstallWebServer 

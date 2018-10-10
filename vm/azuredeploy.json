@@ -2,12 +2,14 @@
     "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion":"1.0.0.0",
     "parameters":{
-       
+        "containerSASToken":{
+            "type": "string"
+        }
     },
     "variables":{
-       "ArtifactoriLink":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/master",
+       "ArtifactoriLink":"https://storaccminskwesteurope.blob.core.windows.net/automationminskwesteurope/",
        "SecretName":"Secret1Task4",
-       "PSLink":"https://github.com/Nerwoolf/azure_arm/raw/master/vm/iissettingup.ps1.zip"
+       "PSLink":"[concat('https://storaccminskwesteurope.blob.core.windows.net/automationminskwesteurope/iissettingup.ps1.zip',parameters('containerSASToken'))]"
     },
     "resources":[
        {
@@ -17,7 +19,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'), '/vm/nsg.json')]",
+                "uri":"[concat(variables('ArtifactoriLink'), 'nsg.json', parameters('containerSASToken'))]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{
@@ -32,7 +34,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'/vm/virtnet-with-pip.json')]",
+                "uri":"[concat(variables('ArtifactoriLink'),'virtnet-with-pip.json', parameters('containerSASToken'))]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{
@@ -49,7 +51,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'/vm/storageaccount.json')]",
+                "uri":"[concat(variables('ArtifactoriLink'),'storageaccount.json', parameters('containerSASToken'))]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{
@@ -64,7 +66,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'/vm/keyvault.json')]",
+                "uri":"[concat(variables('ArtifactoriLink'),'keyvault.json', parameters('containerSASToken'))]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{
@@ -82,7 +84,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'/vm/vmdeploy.json')]",
+                "uri":"[concat(variables('ArtifactoriLink'),'vmdeploy.json', parameters('containerSASToken'))]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{
@@ -113,7 +115,7 @@
            "properties": {
                "mode": "Incremental",
                "templateLink": {
-                   "uri": "[concat(variables('ArtifactoriLink'), '/vm/vmextension.json')]",
+                   "uri": "[concat(variables('ArtifactoriLink'), 'vmextension.json',parameters('containerSASToken'))]",
                    "contentVersion": "1.0.0.0"
                },
                "parameters": {

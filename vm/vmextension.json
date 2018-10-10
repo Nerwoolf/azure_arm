@@ -11,7 +11,7 @@
         
     },
     "variables": {
-      "configurationFunction": "iissettingup.ps1\\iissettingup"
+      "configurationFunction": "iissettingup.ps1\\IISWebSite"
     },
     "resources": [    
         {

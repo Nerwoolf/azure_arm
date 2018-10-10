@@ -58,7 +58,7 @@ begin{
                                     "deploy_with_blob" = "deploy_with_blob.ps1"
                                     
                                 }
-    $storAccName = $("storacc"+$resourceGroupName+$resourceGroupLocation).ToLower()
+    $storAccName = ("stacc"+$resourceGroupName+01).ToLower()
     $storAccContainerName = ("automation{0}{1}" -f $resourceGroupForArtifactStorageName, $resourceGroupLocation)
     $tempDownloadFolder = "$env:USERPROFILE\desktop\temp"
     $resourceGroupName = $resourceGroupName.ToLower()

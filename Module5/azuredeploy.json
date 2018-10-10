@@ -1,0 +1,73 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "SecondWebAppLocation":{
+            "type": "string"
+        },
+        "WebAppNamePrefix": { 
+            "type": "array", 
+            "defaultValue": [ 
+                "first", 
+                "second"
+             ] 
+         },
+         "locations":{
+             "type": "array",
+            "defaultValue": [
+                "[resourceGroup().location]",
+                "[parameters('SecondWebAppLocation')]"
+            ]
+         },
+         "workerPool": {
+            "type": "string",
+            "allowedValues": [
+                "1",
+                "2",
+                "3"
+            ],
+            "defaultValue": "1",
+            "metadata": {
+                "description": "Defines which worker pool's (WP1, WP2 or WP3) resources will be used for the app service plan."
+            }
+            },
+            "numberOfWorkersFromWorkerPool": {
+                "type": "int",
+                "defaultValue": 1,
+                "metadata": {
+                    "description": "Defines the number of workers from the worker pool that will be used by the app service plan."
+                }
+            }
+    },
+    "variables": {
+    
+        "WebAppName":"[concat('-azlab-webapp-',resourceGroup().location)]",
+        "AppServicePlanName":"appserviceplan-"
+        
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-08-01",
+            "name": "[concat(variables('AppServicePlanName'),copyIndex(1),'-',parameters('locations')[copyIndex()])]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[parameters('locations')[copyIndex()]]",
+            "copy": {
+                "name": "ServicePlanCopy",
+                "count":2
+            },
+            "properties": {
+                "name": "[concat(variables('AppServicePlanName'),copyIndex(1),'-',parameters('locations')[copyIndex()])]"
+            },
+            "sku": {
+                "name" : "[concat('P',parameters('workerPool'))]",
+                "tier": "Premium",
+                "size": "[concat('P',parameters('workerPool'))]",
+                "family": "P",
+                "capacity": "[parameters('numberOfWorkersFromWorkerPool')]"
+            }
+        }
+    ],
+    "outputs": {
+    
+    }
+}

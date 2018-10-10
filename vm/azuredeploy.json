@@ -117,9 +117,6 @@
                    "contentVersion": "1.0.0.0"
                },
                "parameters": {
-                   "VMName":{
-                       "value":"[reference('VirtualMachine').outputs.VMName.value]"
-                   },
                    "PSArtifactLink":{
                        "value":"[variables('PSLink')]"
                    }

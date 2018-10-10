@@ -125,9 +125,6 @@
           }
        ],
     "outputs": {
-      "VMname":{
-        "type":"string",
-        "value":"[variables('VirtualMachineName')]"
-      }
+
     }
 }

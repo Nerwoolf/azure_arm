@@ -60,7 +60,7 @@ begin{
      $SubCheck = Get-AzureRmSubscription -SubscriptionId $subscriptionId -ErrorAction SilentlyContinue
      if (!$SubCheck) {
          Connect-AzureRmAccount 
-         Select-AzureRmContext -SubscriptionID $subscriptionId
+         set-AzureRmContext -SubscriptionID $subscriptionId
      }
  
      # Create or check for existing resource group
@@ -93,7 +93,7 @@ process{
 
     # Get publishing profile for the web app
     new-item -ItemType Directory -Path $appdirectory -ErrorAction SilentlyContinue
-    $xml = [xml](Get-AzureRmWebAppPublishingProfile -Name $webappname.Name -ResourceGroupName $resourceGroupName)
+    $xml = [xml](Get-AzureRmWebAppPublishingProfile -Name $webappname.Name -ResourceGroupName $resourceGroupName -outputfile $null)
 
     # Extract connection information from publishing profile
     $username = $xml.SelectNodes("//publishProfile[@publishMethod=`"FTP`"]/@userName").value

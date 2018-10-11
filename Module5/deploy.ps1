@@ -43,7 +43,7 @@ param(
     [string]$uniqueDnsName= "azure-lab5",
     
     [Parameter(Mandatory = $false)]
-    [string]$ARMtemplateUri = ".\Module5\azuredeploy.json",
+    [string]$ARMtemplateUri = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/Module5/azuredeploy.json",
 
     [Parameter(Mandatory = $false)]
     [string]$parametersFilePath = "s.json",

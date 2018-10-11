@@ -81,7 +81,11 @@
              "[concat('Microsoft.Web/serverfarms/', variables('AppServicePlanName'),copyIndex(1),'-',parameters('locations')[copyIndex()])]"
           ],
           "properties":{  
-             "serverFarmId":"[resourceId('Microsoft.Web/serverfarms/', concat(variables('AppServicePlanName'),copyIndex(1),'-',parameters('locations')[copyIndex()]))]"
+             "serverFarmId":"[resourceId('Microsoft.Web/serverfarms/', concat(variables('AppServicePlanName'),copyIndex(1),'-',parameters('locations')[copyIndex()]))]",
+             "siteConfig":{
+                "alwaysOn":true 
+                }
+            }
           },
           "copy":{  
              "name":"WebSite",

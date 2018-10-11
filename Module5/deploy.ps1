@@ -93,7 +93,7 @@ process{
 
     # Get publishing profile for the web app
     new-item -ItemType Directory -Path $appdirectory -ErrorAction SilentlyContinue
-    $xml = [xml](Get-AzureRmWebAppPublishingProfile -Name $webappname.Name -ResourceGroupName $resourceGroupName -OutputFile "$appdirectory\null")
+    $xml = [xml](Get-AzureRmWebAppPublishingProfile -Name $webappname.Name -ResourceGroupName $resourceGroupName -OutputFile null)
 
     # Extract connection information from publishing profile
     $username = $xml.SelectNodes("//publishProfile[@publishMethod=`"FTP`"]/@userName").value

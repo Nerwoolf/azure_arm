@@ -115,4 +115,14 @@ process{
         $webclient.UploadFile($uri, $file.FullName)
     } 
     $webclient.Dispose()
+
+}
+end{
+    $url = $(Get-AzureRmTrafficManagerProfile -ResourceGroupName $resourceGroupName -ErrorAction SilentlyContinue).RelativeDnsName
+    if($url){
+        Write-host -ForegroundColor Green ("Your traffic manager dns name is `t http://{0}.trafficmanager.net" -f $url)
+    } else {
+        Write-host "Some Error was got"
+        $Error
+    }
 }

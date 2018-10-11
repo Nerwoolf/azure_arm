@@ -90,16 +90,18 @@ process{
     Write-host -ForegroundColor Yellow "Waiting for deploy job complete..."
     get-job | wait-job
     $webappname = Get-AzureRmWebApp -ResourceGroupName $resourceGroupName | Select-Object -First 1
+
     # Get publishing profile for the web app
-    $xml = [xml](Get-AzureRmWebAppPublishingProfile -Name $webappname.Name -ResourceGroupName $resourceGroupName -OutputFile null)
+    new-item -ItemType Directory -Path $appdirectory -ErrorAction SilentlyContinue
+    $xml = [xml](Get-AzureRmWebAppPublishingProfile -Name $webappname.Name -ResourceGroupName $resourceGroupName -OutputFile "$appdirectory\null")
 
     # Extract connection information from publishing profile
     $username = $xml.SelectNodes("//publishProfile[@publishMethod=`"FTP`"]/@userName").value
     $password = $xml.SelectNodes("//publishProfile[@publishMethod=`"FTP`"]/@userPWD").value
     $url = $xml.SelectNodes("//publishProfile[@publishMethod=`"FTP`"]/@publishUrl").value
 
-    # Download index.html
-    new-item -ItemType Directory -Path $appdirectory -ErrorAction SilentlyContinue
+    # Download index.html to temp folder
+    
     Invoke-WebRequest -Uri $fileUri -OutFile "$appdirectory\index.html"
 
     # Upload files recursively 

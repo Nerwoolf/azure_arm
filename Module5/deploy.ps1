@@ -38,10 +38,21 @@ param(
 
     [Parameter(Mandatory = $false)]
     [string]$deploymentName = "Task 5 - Deploy WebApp",
-    
-    [string]$ARMtemplateUri = "",
 
-    [string]$parametersFilePath = "s.json"
+    [Parameter(Mandatory = $false)]
+    [string]$uniqueDnsName= "azure-lab5",
+    
+    [Parameter(Mandatory = $false)]
+    [string]$ARMtemplateUri = ".\Module5\azuredeploy.json",
+
+    [Parameter(Mandatory = $false)]
+    [string]$parametersFilePath = "s.json",
+
+    [Parameter(Mandatory = $false)]
+    [String]$fileUri= "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/Module5/page/index.html",
+
+    [Parameter(Mandatory = $false)]
+    $appdirectory = "$env:USERPROFILE\desktop\tempsite"
 )
 begin{
      # sign in
@@ -69,9 +80,39 @@ process{
     # Start the deployment
     Write-Host "Starting deployment...";
     if (Test-Path $parametersFilePath) {
-        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $ARMtemplateUri -TemplateParameterFile $parametersFilePath -SecondWebAppLocation $SecondtWebAppLocation
+        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $ARMtemplateUri -TemplateParameterFile $parametersFilePath -ResourceGroupLocation $resourceGroupLocation -SecondWebAppLocation $SecondtWebAppLocation -Mode Complete -AsJob -Force
     }
     else {
-        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $ARMtemplateUri -SecondWebAppLocation $SecondtWebAppLocation
+        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $ARMtemplateUri -SecondWebAppLocation $SecondtWebAppLocation -ResourceGroupLocation $resourceGroupLocation  -Mode Complete -AsJob -Force
     }
+
+    # Wait for ARM Deploy
+    Write-host -ForegroundColor Yellow "Waiting for deploy job complete..."
+    get-job | wait-job
+    $webappname = Get-AzureRmWebApp -ResourceGroupName $resourceGroupName | Select-Object -First 1
+    # Get publishing profile for the web app
+    $xml = [xml](Get-AzureRmWebAppPublishingProfile -Name $webappname.Name -ResourceGroupName $resourceGroupName -OutputFile null)
+
+    # Extract connection information from publishing profile
+    $username = $xml.SelectNodes("//publishProfile[@publishMethod=`"FTP`"]/@userName").value
+    $password = $xml.SelectNodes("//publishProfile[@publishMethod=`"FTP`"]/@userPWD").value
+    $url = $xml.SelectNodes("//publishProfile[@publishMethod=`"FTP`"]/@publishUrl").value
+
+    # Download index.html
+    new-item -ItemType Directory -Path $appdirectory -ErrorAction SilentlyContinue
+    Invoke-WebRequest -Uri $fileUri -OutFile "$appdirectory\index.html"
+
+    # Upload files recursively 
+    Set-Location $appdirectory
+    $webclient = New-Object -TypeName System.Net.WebClient
+    $webclient.Credentials = New-Object System.Net.NetworkCredential($username,$password)
+    $files = Get-ChildItem -Path $appdirectory -Recurse | Where-Object{!($_.PSIsContainer)}
+    foreach ($file in $files)
+    {
+        $relativepath = (Resolve-Path -Path $file.FullName -Relative).Replace(".\", "").Replace('\', '/')
+        $uri = New-Object System.Uri("$url/$relativepath")
+        "Uploading to " + $uri.AbsoluteUri
+        $webclient.UploadFile($uri, $file.FullName)
+    } 
+    $webclient.Dispose()
 }

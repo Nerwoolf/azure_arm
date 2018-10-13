@@ -1,0 +1,66 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "password":{
+            "type": "securestring"
+        }
+    },
+    "variables": {
+        "KeyVaultName":"[concat('KeyVault-',resourceGroup().name)]",
+        "UserIdDzianis":"c81dc8af-1dc1-4c15-9068-f0ec09bda7c0",
+        "UserIdVitalik":"c3f9414a-e86d-4ca5-8fb2-ca182f3c97ff"
+    },
+    "resources": [{
+       "type": "Microsoft.KeyVault/vaults",
+       "apiVersion": "2016-10-01",
+       "name": "[variables('KeyVaultName')]",
+       "location": "[resourceGroup().location]",
+       "properties": {
+            "enabledForDeployment": true,
+            "enabledForTemplateDeployment": true,
+            "enabledForDiskEncryption": true,
+            "tenantId": "[subscription().tenantId]",
+            "accessPolicies": [
+                {
+                    "tenantId": "[subscription().tenantId]",
+                    "objectId": "[variables('UserIdVitalik')]",
+                    "permissions": {
+                       "keys": "full",
+                       "secrets": "full"
+                   }
+                },
+                {
+                    "tenantId": "[subscription().tenantId]",
+                    "objectId": "[variables('UserIdDzianis')]",
+                    "permissions": {
+                       "keys": "full",
+                       "secrets": "full"
+                   }
+                }
+            ],
+            "sku": {
+                "name": "standard",
+                "family": "A"
+            }
+        },
+        "resources": [
+          {
+            "type": "secrets",
+            "name": "sql-secret",
+            "apiVersion": "2015-06-01",
+            "properties": {
+               "value": "[parameters('password')]"
+             },
+            "dependsOn": [
+               "[concat('Microsoft.KeyVault/vaults/', variables('KeyVaultName'))]"
+             ]
+          }]
+    }],
+    "outputs": {
+        "secrets":{
+            "type": "securestring",
+            "value": "[reference("
+        }
+    }
+}

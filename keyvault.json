@@ -7,7 +7,7 @@
         }
     },
     "variables": {
-        "KeyVaultName":"[concat('KeyVault-',resourceGroup().name)]",
+        "KeyVaultName":"[concat('KeyVault-','azlab-',resourceGroup().name)]",
         "UserIdDzianis":"c81dc8af-1dc1-4c15-9068-f0ec09bda7c0",
         "UserIdVitalik":"c3f9414a-e86d-4ca5-8fb2-ca182f3c97ff"
     },
@@ -58,9 +58,9 @@
           }]
     }],
     "outputs": {
-        "secrets":{
-            "type": "securestring",
-            "value": "[reference("
+        "Vault":{
+            "type": "string",
+            "value": "[resourceId('Microsoft.KeyVault/vaults/', variables('KeyVaultName'))]" 
         }
     }
 }

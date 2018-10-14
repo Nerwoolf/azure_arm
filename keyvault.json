@@ -2,65 +2,157 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "password":{
-            "type": "securestring"
+        "secretsObject": {
+            "type": "secureObject",
+            "secrets": {
+                "type": "array",
+                "metadata": {
+                    "description": "all secrets {\"secretName\":\"\",\"secretValue\":\"\"}"
+                }
+            }
+        },
+        "tenantId": {
+            "type": "string",
+            "defaultValue": "4fcf8cd5-73a8-4b57-bd0f-b85fe5560e8b",
+            "metadata": {
+                "description": "Tenant Id of the subscription. Get using Get-AzureRmSubscription cmdlet or Get Subscription API"
+            }
+        },
+        "DzianisObjectId": {
+            "type": "string",
+            "defaultValue": "c81dc8af-1dc1-4c15-9068-f0ec09bda7c0",
+            "metadata": {
+                "description": "Object Id of the AD user. Get using Get-AzureRmADUser or Get-AzureRmADServicePrincipal cmdlets"
+            }
+        },
+        "VitalyObjectId": {
+            "type": "string",
+            "defaultValue": "c3f9414a-e86d-4ca5-8fb2-ca182f3c97ff",
+            "metadata": {
+                "description": "Object Id of the AD user. Get using Get-AzureRmADUser or Get-AzureRmADServicePrincipal cmdlets"
+            }
+        },
+        "keysPermissions": {
+            "type": "array",
+            "defaultValue": [
+                "all"
+            ],
+            "metadata": {
+                "description": "Permissions to keys in the vault. Valid values are: all, create, import, update, get, list, delete, backup, restore, encrypt, decrypt, wrapkey, unwrapkey, sign, and verify."
+            }
+        },
+        "secretsPermissions": {
+            "type": "array",
+            "defaultValue": [
+                "all"
+            ],
+            "metadata": {
+                "description": "Permissions to secrets in the vault. Valid values are: all, get, set, list, and delete."
+            }
+        },
+        "skuName": {
+            "type": "string",
+            "defaultValue": "Standard",
+            "allowedValues": [
+                "Standard",
+                "Premium"
+            ],
+            "metadata": {
+                "description": "SKU for the vault"
+            }
+        },
+        "enableVaultForDeployment": {
+            "type": "bool",
+            "defaultValue": true,
+            "allowedValues": [
+                true,
+                false
+            ],
+            "metadata": {
+                "description": "Specifies if the vault is enabled for a VM deployment"
+            }
+        },
+        "enableVaultForDiskEncryption": {
+            "type": "bool",
+            "defaultValue": false,
+            "allowedValues": [
+                true,
+                false
+            ],
+            "metadata": {
+                "description": "Specifies if the azure platform has access to the vault for enabling disk encryption scenarios."
+            }
+        },
+        "enabledForTemplateDeployment": {
+            "type": "bool",
+            "defaultValue": true,
+            "allowedValues": [
+                true,
+                false
+            ],
+            "metadata": {
+                "description": "Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault."
+            }
         }
     },
     "variables": {
-        "KeyVaultName":"[concat('KeyVault-','azlab-',resourceGroup().name)]",
-        "UserIdDzianis":"c81dc8af-1dc1-4c15-9068-f0ec09bda7c0",
-        "UserIdVitalik":"c3f9414a-e86d-4ca5-8fb2-ca182f3c97ff"
+        "KeyVaultName": "[concat('keyvault-',resourceGroup().name)]"
     },
-    "resources": [{
-       "type": "Microsoft.KeyVault/vaults",
-       "apiVersion": "2016-10-01",
-       "name": "[variables('KeyVaultName')]",
-       "location": "[resourceGroup().location]",
-       "properties": {
-            "enabledForDeployment": true,
-            "enabledForTemplateDeployment": true,
-            "enabledForDiskEncryption": true,
-            "tenantId": "[subscription().tenantId]",
-            "accessPolicies": [
-                {
-                    "tenantId": "[subscription().tenantId]",
-                    "objectId": "[variables('UserIdVitalik')]",
-                    "permissions": {
-                       "keys": "full",
-                       "secrets": "full"
-                   }
-                },
-                {
-                    "tenantId": "[subscription().tenantId]",
-                    "objectId": "[variables('UserIdDzianis')]",
-                    "permissions": {
-                       "keys": "full",
-                       "secrets": "full"
-                   }
+    "resources": [
+        {
+            "type": "Microsoft.KeyVault/vaults",
+            "name": "[variables('keyVaultName')]",
+            "apiVersion": "2016-10-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "enabledForDeployment": "[parameters('enableVaultForDeployment')]",
+                "enabledForDiskEncryption": "[parameters('enableVaultForDiskEncryption')]",
+                "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+                "tenantId": "[parameters('tenantId')]",
+                "accessPolicies": [
+                    {
+                        "tenantId": "[parameters('tenantId')]",
+                        "objectId": "[parameters('DzianisObjectId')]",
+                        "permissions": {
+                            "keys": "[parameters('keysPermissions')]",
+                            "secrets": "[parameters('secretsPermissions')]"
+                        }
+                    },
+                    {
+                        "tenantId": "[parameters('tenantId')]",
+                        "objectId": "[parameters('VitalyObjectId')]",
+                        "permissions": {
+                            "keys": "[parameters('keysPermissions')]",
+                            "secrets": "[parameters('secretsPermissions')]"
+                        }
+                    }
+                ],
+                "sku": {
+                    "name": "[parameters('skuName')]",
+                    "family": "A"
                 }
-            ],
-            "sku": {
-                "name": "standard",
-                "family": "A"
             }
         },
-        "resources": [
-          {
-            "type": "secrets",
-            "name": "sql-secret",
+        {
+            "type": "Microsoft.KeyVault/vaults/secrets",
+            "name": "[concat(variables('keyVaultName'), '/', parameters('secretsObject').secrets[copyIndex()].secretName)]",
             "apiVersion": "2015-06-01",
             "properties": {
-               "value": "[parameters('password')]"
-             },
+                "value": "[parameters('secretsObject').secrets[copyIndex()].secretValue]"
+            },
             "dependsOn": [
-               "[concat('Microsoft.KeyVault/vaults/', variables('KeyVaultName'))]"
-             ]
-          }]
-    }],
+                "[concat('Microsoft.KeyVault/vaults/', variables('keyVaultName'))]"
+            ],
+            "copy": {
+                "name": "secretsCopy",
+                "count": "[length(parameters('secretsObject').secrets)]"
+            }
+        }
+    ],
     "outputs": {
-        "Vault":{
+        "KeyVaultId": {
             "type": "string",
-            "value": "[resourceId('Microsoft.KeyVault/vaults/', variables('KeyVaultName'))]" 
+            "value": "[resourceId('Microsoft.KeyVault/vaults',variables('KeyVaultName'))]"
         }
     }
 }

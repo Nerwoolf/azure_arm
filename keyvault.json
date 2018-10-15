@@ -3,8 +3,12 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "secretsObject": {
-            "type":"secureObject"
+            "type":"securestring"
             },
+        "secretName":{
+            "type": "string",
+            "defaultValue": "VM"
+        },
         "tenantId": {
             "type": "string",
             "defaultValue": "4fcf8cd5-73a8-4b57-bd0f-b85fe5560e8b",
@@ -129,18 +133,14 @@
         },
         {
             "type": "Microsoft.KeyVault/vaults/secrets",
-            "name": "[concat(variables('keyVaultName'), '/', parameters('secretsObject').secrets[copyIndex()])]",
+            "name": "[concat(variables('keyVaultName'), '/', parameters('secretName'))]",
             "apiVersion": "2018-02-14",
             "properties": {
-                "value": "[parameters('secretsObject').passvalue[copyIndex()]]"
+                "value": "[parameters('secretsObject')]"
             },
             "dependsOn": [
                 "[concat('Microsoft.KeyVault/vaults/', variables('keyVaultName'))]"
-            ],
-            "copy": {
-                "name": "secretsCopy",
-                "count": "[length(parameters('secretsObject').secrets)]"
-            }
+            ]
         }
     ],
     "outputs": {

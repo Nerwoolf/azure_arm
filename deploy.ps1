@@ -44,11 +44,8 @@ param(
 )
 begin{
      # Password
-     $SecretName = @("vm","SQL")
      $passwordVM = Read-Host -Prompt "Please input password for VM" -AsSecureString
-     $passwordSQL = Read-Host -Prompt "Please input password for SQL" -AsSecureString
-     $objPasswords = @{"secrets"="$SecretName";"passvalue"=@("$passwordVM","$passwordSQL")}
-
+  
      # sign in
      Write-host -ForegroundColor Green "Loging to azure subscription"
      $SubCheck = Get-AzureRmSubscription -SubscriptionId $subscriptionId -ErrorAction SilentlyContinue
@@ -73,7 +70,7 @@ begin{
 process{
     # Start the deployment
     Write-Host "Start deploying keyvault"
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $KeyVaultUri -secretsObject $objPasswords -Verbose
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $KeyVaultUri -secretsObject $passwordVM -Verbose
 
 }
  

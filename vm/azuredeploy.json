@@ -6,7 +6,7 @@
             "type": "string"
         },
         "VaultKey":{
-            "type":"secretobject"
+            "type":"secureObject"
         }
     },
     "variables":{

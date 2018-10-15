@@ -10,17 +10,12 @@
       "type":"string",
       "defaultValue": "192.168.0.0/24"
     },
-  "BEaddressPrefix":{
-      "type":"string",
-      "defaultValue": "192.168.1.0/24"
-    },
   "NSGId":{
     "type": "string"
   }
   },
   "variables": {
     "FEsubnetName":"FESubnet",
-    "BESubnetName":"BESubnet",
     "VNetName": "[concat('vnet-',resourceGroup().name)]",
     "PublicIPName":"[concat('public-ip-',resourceGroup().name)]"
     
@@ -39,12 +34,6 @@
           ]
         },
         "subnets": [
-          {
-            "name": "[variables('BESubnetName')]",
-            "properties": {
-              "addressPrefix": "[parameters('BEaddressPrefix')]"
-            }
-          },
           {
             "name": "[variables('FEsubnetName')]",
             "properties": {

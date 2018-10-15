@@ -36,36 +36,57 @@ param(
  [Parameter(Mandatory=$false)]
  [string]$deploymentName="Task 4 - Deploy ARM's",
 
- [string]$templateUri = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/vm/azuredeploy.json",
+ [string]$templateUri = ".\vm\azuredeploy.json",
 
  [string]$parametersFilePath = "s.json"
 )
-$resourceGroupName = $resourceGroupName.ToLower()
+begin{
+    $resourceGroupName = $resourceGroupName.ToLower()
+    # Password for KeyVault
+    $password = @{
+            "secrets"=@(
+                @{
+                    "secretname"="vm"
+                    "secretvalue"="$(read-host -Prompt "Please input password for VM" -AsSecureString)"
+                }
+                <#,
+                @{
+                    "secretname"="SQL"
+                    "secretValue"="aaasdkasd"
+                }
+                #>
+            )
+    }
 
-# sign in
-Write-host -ForegroundColor Green "Loging to azure subscription"
-$SubCheck = Get-AzureRmSubscription -SubscriptionId $subscriptionId -ErrorAction SilentlyContinue
-if(!$SubCheck){
-    Connect-AzureRmAccount 
-    Select-AzureRmContext -SubscriptionID $subscriptionId
+    # sign in
+    Write-host -ForegroundColor Green "Loging to azure subscription"
+    $SubCheck = Get-AzureRmSubscription -SubscriptionId $subscriptionId -ErrorAction SilentlyContinue
+    if(!$SubCheck){
+        Connect-AzureRmAccount 
+        Set-AzureRmContext -SubscriptionID $subscriptionId
+    } else {
+        Set-AzureRmcontext -SubscriptionId $subscriptionId
+    }
+
+    #Create or check for existing resource group
+    $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
+    if(!$resourceGroup)
+    {
+        Write-Host "Creating resource group '$resourceGroupName' in location '$resourceGroupLocation'";
+        New-AzureRmResourceGroup -Name $resourceGroupName -Location $resourceGroupLocation
+    }
+    else{
+        Write-Host "Using existing resource group $resourceGroupName";
+    }
 }
+process{
+        
+        # Start the deployment
+    Write-Host "Starting deployment...";
+    if(Test-Path $parametersFilePath) {
+        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -TemplateParameterFile $parametersFilePath
+    } else {
+        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -secretsObject $password
+    }
 
-#Create or check for existing resource group
-$resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue
-if(!$resourceGroup)
-{
-    Write-Host "Creating resource group '$resourceGroupName' in location '$resourceGroupLocation'";
-    New-AzureRmResourceGroup -Name $resourceGroupName -Location $resourceGroupLocation
-}
-else{
-    Write-Host "Using existing resource group $resourceGroupName";
-}
-
-
-# Start the deployment
-Write-Host "Starting deployment...";
-if(Test-Path $parametersFilePath) {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -TemplateParameterFile $parametersFilePath;
-} else {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri;
 }

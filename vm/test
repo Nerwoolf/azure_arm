@@ -1,0 +1,21 @@
+,
+        "defaultValue": {
+            "secrets": [						
+                {
+                    "secretName": "Secret1Task4",
+                    "secretValue": "secretValue4"
+                }
+
+
+                $password = @{
+                    "secrets"=@(
+                            @{
+                                "secretname"="vm"
+                                "secretvalue"="asdasdasd"
+                            },
+                            @{
+                                "secretname"="SQL"
+                                "secretValue"="aaasdkasd"
+                            }
+                    )
+                }

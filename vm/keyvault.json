@@ -3,18 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "secretsObject": {
-        "type":"secureObject",
-        "defaultValue": {
-            "secrets": [						
-                {
-                    "secretName": "Secret1Task4",
-                    "secretValue": "secretValue4"
-                }
-            ]
-        },
-        "metadata": {
-          "description": "all secrets {\"secretName\":\"\",\"secretValue\":\"\"} wrapped in a secure object"
-        }
+        "type":"secureObject"
       },
       "tenantId": {
         "type": "string",

@@ -2,17 +2,13 @@
     "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion":"1.0.0.0",
     "parameters":{
-        "containerSASToken":{
-            "type": "string"
-        },
         "ARMlink":{
             "type": "string"
         }
     },
     "variables":{
        "ArtifactoriLink":"[parameters('ARMlink')]",
-       "SecretName":"Secret1Task4",
-       "PSLink":"[concat(parameters('ARMlink'),'iissettingup.ps1.zip',parameters('containerSASToken'))]"
+       "SecretName":"task7"
     },
     "resources":[
        {
@@ -22,7 +18,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'), 'nsg.json', parameters('containerSASToken'))]",
+                "uri":"[concat(variables('ArtifactoriLink'), 'nsg.json')]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{
@@ -37,7 +33,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'virtnet-with-pip.json', parameters('containerSASToken'))]",
+                "uri":"[concat(variables('ArtifactoriLink'),'virtnet-with-pip.json')]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{
@@ -54,7 +50,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'storageaccount.json', parameters('containerSASToken'))]",
+                "uri":"[concat(variables('ArtifactoriLink'),'storageaccount.json')]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{
@@ -69,7 +65,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'keyvault.json', parameters('containerSASToken'))]",
+                "uri":"[concat(variables('ArtifactoriLink'),'keyvault.json')]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{
@@ -87,7 +83,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'vmdeploy.json', parameters('containerSASToken'))]",
+                "uri":"[concat(variables('ArtifactoriLink'),'vmdeploy.json')]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{
@@ -110,26 +106,6 @@
                 }
              }
           }
-       },
-       {
-           "name": "VMExtension",
-           "type": "Microsoft.Resources/deployments",
-           "apiVersion": "2015-01-01",
-           "properties": {
-               "mode": "Incremental",
-               "templateLink": {
-                   "uri": "[concat(variables('ArtifactoriLink'), 'vmextension.json',parameters('containerSASToken'))]",
-                   "contentVersion": "1.0.0.0"
-               },
-               "parameters": {
-                   "VMName":{
-                       "value":"[reference('VirtualMachine').outputs.VMname.value]"
-                   },
-                   "PSArtifactLink":{
-                       "value":"[variables('PSLink')]"
-                   }
-               }
-           }
        }
     ],
     "outputs":{

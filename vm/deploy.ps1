@@ -36,7 +36,9 @@ param(
  [Parameter(Mandatory=$false)]
  [string]$deploymentName="Task 4 - Deploy ARM's",
 
- [string]$templateUri = ".\vm\azuredeploy.json",
+ [string]$templateUri = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/module7/vm/azuredeploy.json",
+
+ [string]$armLink = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/module7/vm/",
 
  [string]$parametersFilePath = "s.json"
 )
@@ -86,7 +88,7 @@ process{
     if(Test-Path $parametersFilePath) {
         New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -TemplateParameterFile $parametersFilePath
     } else {
-        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -secretsObject $password
+        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -VaultKey $password -armLink $armLink
     }
 
 }

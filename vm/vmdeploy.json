@@ -77,7 +77,12 @@
                 "osDisk": {
                   "createOption": "FromImage"
                 },
-                "dataDisks": []
+                "dataDisks": [
+                  {
+                    "name": "[concat(variables('VirtualMachineName'),'-data-disk')]",
+                    "diskSizeGiB": 1
+                  }
+                ]
               },
               "networkProfile": {
                 "networkInterfaces": [

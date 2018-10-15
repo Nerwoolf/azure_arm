@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<publishData>
-  <publishProfile profileName="new-azlab-webapp-francecentral - Web Deploy" publishMethod="MSDeploy" publishUrl="new-azlab-webapp-francecentral.scm.azurewebsites.net:443" msdeploySite="new-azlab-webapp-francecentral" userName="$new-azlab-webapp-francecentral" userPWD="afY3dmlzJpR5xxs5FYwLjg2cQq69dkyq8tCRcjd4hEktZKBAyepYqvqQlvbS" destinationAppUrl="http://new-azlab-webapp-francecentral.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites">
-    <databases />
-  </publishProfile>
-  <publishProfile profileName="new-azlab-webapp-francecentral - FTP" publishMethod="FTP" publishUrl="ftp://waws-prod-par-003.ftp.azurewebsites.windows.net/site/wwwroot" ftpPassiveMode="True" userName="new-azlab-webapp-francecentral\$new-azlab-webapp-francecentral" userPWD="afY3dmlzJpR5xxs5FYwLjg2cQq69dkyq8tCRcjd4hEktZKBAyepYqvqQlvbS" destinationAppUrl="http://new-azlab-webapp-francecentral.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites">
-    <databases />
-  </publishProfile>
-</publishData>

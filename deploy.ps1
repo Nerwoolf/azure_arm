@@ -44,9 +44,10 @@ param(
 )
 begin{
      # Password
-     $SecretName = @("vm")
-     $password = Read-Host -Prompt "Please input password for VM" -AsSecureString
-     $objPasswords = @{"secrets"=$SecretName;"passvalue"=@($password)}
+     $SecretName = @("vm","SQL")
+     $passwordVM = Read-Host -Prompt "Please input password for VM" -AsSecureString
+     $passwordSQL = Read-Host -Prompt "Please input password for SQL" -AsSecureString
+     $objPasswords = @{"secrets"="$SecretName";"passvalue"=@("$passwordVM","$passwordSQL")}
 
      # sign in
      Write-host -ForegroundColor Green "Loging to azure subscription"

@@ -75,8 +75,8 @@
                   "version": "latest"
                 },
                 "osDisk": {
-                  "createOption": "FromImage",
-                  "diskSizeGB":30
+                  "createOption": "FromImage"
+
                 },
                 "dataDisks": [
                   {

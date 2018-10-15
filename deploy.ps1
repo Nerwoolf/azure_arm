@@ -34,7 +34,7 @@ param(
     [string]$resourceGroupLocation="northeurope",
 
     [Parameter(Mandatory = $false)]
-    [string]$deploymentName = "Task 6 - Deploy SQL",
+    [string]$deploymentName = "Task 7 - Backup",
     
     [Parameter(Mandatory = $false)]
     [string]$ARMtemplateUri = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/Module5/azuredeploy.json",

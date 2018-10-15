@@ -5,8 +5,25 @@
 
     },
   "variables": {
+    "_artifactsLocation"=""
    },
   "resources": [
-    ],
+  {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "name": "NestedDeployment1",
+      "tags": {
+          "displayName": "NestedDeployment1"
+      },
+      "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+              "uri": "[variables(')]",
+              "contentVersion": "1.0.0.0"
+          },
+          "parameters": {}
+      }
+  }
+  ],
   "outputs": {}
 }

@@ -76,12 +76,11 @@
                 },
                 "osDisk": {
                   "createOption": "FromImage"
-
                 },
                 "dataDisks": [
                   {
                     "lun": 1,
-                    "diskSizeGB": 1,
+                    "diskSizeGB": 10,
                     "name": "[concat(variables('VirtualMachineName'),'-data-disk')]",
                     "createOption":"Empty"
                   }

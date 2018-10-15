@@ -37,15 +37,17 @@ param(
     [string]$deploymentName = "Task 7 - Backup",
     
     [Parameter(Mandatory = $false)]
-    [string]$ARMtemplateUri = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/master/Module5/azuredeploy.json",
+    [string]$KeyVaultUri= "https://raw.githubusercontent.com/Nerwoolf/azure_arm/test/keyvault.json",
 
     [Parameter(Mandatory = $false)]
     [string]$parametersFilePath = "s.json"
 )
 begin{
-	 # Password
-	 $password = Read-Host -Prompt "Please input password for sql" -AsSecureString
-	
+     # Password
+     $SecretName = @("vm")
+     $password = Read-Host -Prompt "Please input password for VM" -AsSecureString
+     $objPasswords = @{"secrets"=$SecretName;"passvalue"=@($password)}
+
      # sign in
      Write-host -ForegroundColor Green "Loging to azure subscription"
      $SubCheck = Get-AzureRmSubscription -SubscriptionId $subscriptionId -ErrorAction SilentlyContinue
@@ -69,13 +71,9 @@ begin{
 }
 process{
     # Start the deployment
-    Write-Host "Starting deployment...";
-    if (Test-Path $parametersFilePath) {
-        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $ARMtemplateUri -TemplateParameterFile $parametersFilePath 
-    }
-    else {
-        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $ARMtemplateUri -password $password
-    }
+    Write-Host "Start deploying keyvault"
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $KeyVaultUri -secretsObject $objPasswords -Verbose
+
 }
  
 

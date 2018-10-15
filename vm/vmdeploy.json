@@ -80,8 +80,9 @@
                 },
                 "dataDisks": [
                   {
-                    "lun": "[concat(variables('VirtualMachineName'),'-data-disk')]",
+                    "lun": 1,
                     "diskSizeGB": 1,
+                    "name": "[concat(variables('VirtualMachineName'),'-data-disk')]",
                     "createOption":"Empty"
                   }
                 ]

@@ -84,7 +84,7 @@ begin{
 process{
         
         # Start the deployment
-    Write-Host "Starting deployment...";
+    Write-Host "Starting deployment..."
     if(Test-Path $parametersFilePath) {
         New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -TemplateParameterFile $parametersFilePath
     } else {

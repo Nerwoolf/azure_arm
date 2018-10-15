@@ -75,12 +75,14 @@
                   "version": "latest"
                 },
                 "osDisk": {
-                  "createOption": "FromImage"
+                  "createOption": "FromImage",
+                  "diskSizeGB":30
                 },
                 "dataDisks": [
                   {
-                    "name": "[concat(variables('VirtualMachineName'),'-data-disk')]",
-                    "diskSizeGiB": 1
+                    "lun": "[concat(variables('VirtualMachineName'),'-data-disk')]",
+                    "diskSizeGiB": 1,
+                    "createOption":"Empty"
                   }
                 ]
               },

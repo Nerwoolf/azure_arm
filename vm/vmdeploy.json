@@ -81,7 +81,7 @@
                 "dataDisks": [
                   {
                     "lun": "[concat(variables('VirtualMachineName'),'-data-disk')]",
-                    "diskSizeGiB": 1,
+                    "diskSizeGB": 1,
                     "createOption":"Empty"
                   }
                 ]

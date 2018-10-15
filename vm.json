@@ -1,7 +1,14 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        "password":{
+            "type": "securestring"
+        },
+        "loginName":{
+            "type": "string"
+        }
+    },
     "variables": {
         "VMName":"[concat('vm-',resourceGroup().name)]",
         "VmStorage":"[concat('vmstor',resourceGroup().name)]",
@@ -89,8 +96,8 @@
             },
             "osProfile": {
                 "computerName": "[variables('VMName')]",
-                "adminUsername": "nerwoolf",
-                "adminPassword": "63052ner@"
+                "adminUsername": "[parameters('loginName')]",
+                "adminPassword": "[parameters('password')]"
             },
             "storageProfile": {
                 "imageReference": {

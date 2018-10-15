@@ -2,26 +2,68 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
     "parameters": {
+          "VMloginName":{
+            "type": "string"
+          },
+          "secrets":{
+            "type": "secureObject"
+          },
+          "KeyVaultName":{
+            "type": "string",
+            "defaultValue": "[concat('keyvault-',resourceGroup().name)]"
+          },
+          "SecretName":{
+            "type": "string"
+          }
 
     },
   "variables": {
-    "_artifactsLocation"=""
+    "_artifactsLocation":"https://raw.githubusercontent.com/Nerwoolf/azure_arm/test/"
    },
   "resources": [
+    {
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "name": "keyVault",
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(variables('_artifactsLocation'), 'keyvault.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {
+              "secretsObject":{
+                "value": "[parameters('secrets')]"
+              }
+            }
+        }
+    },
   {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "name": "NestedDeployment1",
-      "tags": {
-          "displayName": "NestedDeployment1"
-      },
+      "dependsOn": [
+        "keyVault"
+      ],
       "properties": {
           "mode": "Incremental",
           "templateLink": {
-              "uri": "[variables(')]",
+              "uri": "[concat(variables('_artifactsLocation'),'vm.json')]",
               "contentVersion": "1.0.0.0"
           },
-          "parameters": {}
+          "parameters": {
+            "loginName":{
+              "value": "[parameters('VMloginName')]"
+            },
+            "password":{
+              "reference": {
+                "keyVault": {
+                    "id": "[resourceId('Microsoft.KeyVault/vaults', parameters('KeyVaultName'))]"
+                },
+                "secretName": "[parameters('SecretName')]"
+            }
+            }
+          }
       }
   }
   ],

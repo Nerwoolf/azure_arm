@@ -204,7 +204,25 @@
                 }
              }
           }
-       }
+       },
+       {
+        "name":"BackupVault",
+        "type":"Microsoft.Resources/deployments",
+        "apiVersion":"2015-01-01",
+        "properties":{
+           "mode":"Incremental",
+           "templateLink":{
+              "uri":"[concat(variables('ArtifactoriLink'),'backup.json')]",
+              "contentVersion":"1.0.0.0"
+           },
+           "parameters":{
+                "existingVirtualMachines":{
+                    "value":"[reference('VirtualMachine').outputs.vmname.value]"
+                }
+           }
+        }
+     }
+    
     ],
     "outputs":{
  

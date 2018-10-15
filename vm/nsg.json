@@ -11,20 +11,7 @@
         "name": "[variables('nsgname')]",
         "location": "[resourceGroup().location]",
         "properties": {
-            "securityRules": [{
-                "name": "IIS-8080",
-                "properties": {
-                    "description": "IIS-8080",
-                    "protocol": "tcp",
-                    "sourcePortRange": "*",
-                    "destinationPortRange": "8080",
-                    "sourceAddressPrefix": "*",
-                    "destinationAddressPrefix": "*",
-                    "access": "Allow",
-                    "priority": "100",
-                    "direction": "Inbound"
-                }
-            },
+            "securityRules": [
             {
                 "name": "RDP-3389",
                 "properties": {

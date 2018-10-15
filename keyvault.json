@@ -3,14 +3,8 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "secretsObject": {
-            "type": "secureObject",
-            "secrets": {
-                "type": "array",
-                "metadata": {
-                    "description": "all secrets {\"secretName\":\"\",\"secretValue\":\"\"}"
-                }
-            }
-        },
+            "type":"secureObject"
+            },
         "tenantId": {
             "type": "string",
             "defaultValue": "4fcf8cd5-73a8-4b57-bd0f-b85fe5560e8b",
@@ -135,10 +129,10 @@
         },
         {
             "type": "Microsoft.KeyVault/vaults/secrets",
-            "name": "[concat(variables('keyVaultName'), '/', parameters('secretsObject').secrets[copyIndex()].secretName)]",
+            "name": "[concat(variables('keyVaultName'), '/', parameters('secretsObject').secrets[copyIndex()])]",
             "apiVersion": "2015-06-01",
             "properties": {
-                "value": "[parameters('secretsObject').secrets[copyIndex()].secretValue]"
+                "value": "[parameters('secretsObject').passvalue[copyIndex()]]"
             },
             "dependsOn": [
                 "[concat('Microsoft.KeyVault/vaults/', variables('keyVaultName'))]"

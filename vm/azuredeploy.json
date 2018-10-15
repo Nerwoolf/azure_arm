@@ -5,13 +5,73 @@
         "ARMlink":{
             "type": "string"
         },
-        "VaultKey":{
+        "secretsObject": {
             "type":"secureObject"
-        }
+          },
+          "tenantId": {
+            "type": "string",
+            "defaultValue": "4fcf8cd5-73a8-4b57-bd0f-b85fe5560e8b"
+          },
+          "DzianisObjectId": {
+            "type": "string",
+            "defaultValue": "c81dc8af-1dc1-4c15-9068-f0ec09bda7c0"
+            },
+          "VitalyObjectId": {
+              "type": "string",
+              "defaultValue": "c3f9414a-e86d-4ca5-8fb2-ca182f3c97ff"
+            },
+          "keysPermissions": {
+            "type": "array",
+            "defaultValue": [
+              "all"
+            ]
+          },
+          "secretsPermissions": {
+            "type": "array",
+            "defaultValue": [
+              "all"
+            ]
+          },
+          "skuName": {
+            "type": "string",
+            "defaultValue": "Standard",
+            "allowedValues": [
+              "Standard",
+              "Premium"
+            ],
+            "metadata": {
+              "description": "SKU for the vault"
+            }
+          },
+          "enableVaultForDeployment": {
+            "type": "bool",
+            "defaultValue": true,
+            "allowedValues": [
+              true,
+              false
+            ]
+          },
+          "enableVaultForDiskEncryption": {
+            "type": "bool",
+            "defaultValue": false,
+            "allowedValues": [
+              true,
+              false
+            ]
+          },
+          "enabledForTemplateDeployment": {
+            "type": "bool",
+            "defaultValue": true,
+            "allowedValues": [
+              true,
+              false
+            ]
+          }
     },
     "variables":{
        "ArtifactoriLink":"[parameters('ARMlink')]",
-       "SecretName":"VM"
+       "SecretName":"VM",
+       "KeyVaultName":"[concat('keyvault-',resourceGroup().name)]"
     },
     "resources":[
        {
@@ -62,23 +122,55 @@
           }
        },
        {
-          "name":"KeyVault",
-          "type":"Microsoft.Resources/deployments",
-          "apiVersion":"2015-01-01",
-          "properties":{
-             "mode":"Incremental",
-             "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'keyvault.json')]",
-                "contentVersion":"1.0.0.0"
-             },
-             "parameters":{
-                "secretObject":{
-                    "type":"secureObject",
-                    "value":"[parameters('VaultKey')]"
-                }
-             }
+        "type": "Microsoft.KeyVault/vaults",
+        "name": "[variables('keyVaultName')]",
+        "apiVersion"  : "2016-10-01",
+        "location": "[resourceGroup().location]",
+        "properties": {
+          "enabledForDeployment": "[parameters('enableVaultForDeployment')]",
+          "enabledForDiskEncryption": "[parameters('enableVaultForDiskEncryption')]",
+          "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+          "tenantId": "[parameters('tenantId')]",
+          "accessPolicies": [
+            {
+              "tenantId": "[parameters('tenantId')]",
+              "objectId": "[parameters('DzianisObjectId')]",
+              "permissions": {
+                "keys": "[parameters('keysPermissions')]",
+                "secrets": "[parameters('secretsPermissions')]"
+              }
+            },
+            {
+              "tenantId": "[parameters('tenantId')]",
+              "objectId": "[parameters('VitalyObjectId')]",
+              "permissions": {
+                "keys": "[parameters('keysPermissions')]",
+                "secrets": "[parameters('secretsPermissions')]"
+              }
+            }
+          ],
+          "sku": {
+            "name": "[parameters('skuName')]",
+            "family": "A"
           }
-       },
+        }
+      },
+     {
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "name": "[concat(variables('keyVaultName'), '/', parameters('secretsObject').secrets[copyIndex()].secretName)]",
+      "apiVersion": "2015-06-01",
+      "properties": {
+        "value": "[parameters('secretsObject').secrets[copyIndex()].secretValue]"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.KeyVault/vaults/', variables('keyVaultName'))]"
+      ],
+      "copy": {
+        "name": "secretsCopy",
+        "count": "[length(parameters('secretsObject').secrets)]"
+      }
+    }
+     ,
        {
           "name":"VirtualMachine",
           "type":"Microsoft.Resources/deployments",
@@ -105,7 +197,7 @@
                 "adminPassword":{
                     "reference": {
                         "keyVault": {
-                        "id": "[reference('KeyVault').outputs.KeyVaultId.value]"
+                        "id": "[resourceid('Microsoft.KeyVault/vaults', variables('KeyVaultName'))]"
                         },
                         "secretName": "[variables('SecretName')]"
                     }

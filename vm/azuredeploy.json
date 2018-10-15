@@ -73,6 +73,7 @@
              },
              "parameters":{
                 "secretObject":{
+                    "type":"secureObject",
                     "value":"[parameters('VaultKey')]"
                 }
              }

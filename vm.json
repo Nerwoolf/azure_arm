@@ -7,14 +7,16 @@
         },
         "loginName":{
             "type": "string"
-        }
+        },
+        
     },
     "variables": {
         "VMName":"[concat('vm-',resourceGroup().name)]",
         "VmStorage":"[concat('vmstor',resourceGroup().name)]",
         "VMPip":"[concat('vm-pip-',resourceGroup().name)]",
         "VnetName":"[concat('vnet-',resourceGroup().name)]",
-        "VMnicName":"[concat('nic-',resourceGroup().name)]"
+        "VMnicName":"[concat('nic-',resourceGroup().name)]",
+        "nsgName":"[concat('nsg-',resourceGroup().name)]"
     },
     "resources": [{
         "type": "Microsoft.Storage/storageAccounts",
@@ -23,6 +25,15 @@
         "location": "[resourceGroup().location]",
         "properties": {
             "accountType": "Standard_LRS"
+        }
+    },
+    {
+        "type": "Microsoft.Network/networkSecurityGroups",
+        "apiVersion": "2017-06-01",
+        "name": "[variables('nsgName')]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+            "securityRules": []
         }
     },
     {
@@ -38,6 +49,9 @@
         "apiVersion": "2015-06-15",
         "type": "Microsoft.Network/virtualNetworks",
         "name": "[variables('VnetName')]",
+        "dependsOn": [
+            "[variables('nsgName')]"
+        ],
         "location": "[resourceGroup().location]",
         "properties": {
             "addressSpace": {
@@ -49,6 +63,9 @@
                 {
                     "name": "subnet",
                     "properties": {
+                        "networkSecurityGroup": {
+                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+                        },
                         "addressPrefix": "10.0.0.0/24"
                     }
                 }

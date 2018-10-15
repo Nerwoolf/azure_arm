@@ -40,12 +40,14 @@ param(
     [string]$KeyVaultUri= "https://raw.githubusercontent.com/Nerwoolf/azure_arm/test/keyvault.json",
 
     [Parameter(Mandatory = $false)]
+    [string]$DeployTemplate= "https://raw.githubusercontent.com/Nerwoolf/azure_arm/test/azuredeploy.json",
+
+    [Parameter(Mandatory = $false)]
     [string]$parametersFilePath = "s.json"
 )
 begin{
      # Password
      $passwordVM = Read-Host -Prompt "Please input password for VM" -AsSecureString
-  
      # sign in
      Write-host -ForegroundColor Green "Loging to azure subscription"
      $SubCheck = Get-AzureRmSubscription -SubscriptionId $subscriptionId -ErrorAction SilentlyContinue
@@ -68,10 +70,15 @@ begin{
 
 }
 process{
-    # Start the deployment
+    # Start KeyVault deploy
     Write-Host "Start deploying keyvault"
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $KeyVaultUri -secretsObject $passwordVM -Verbose
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $KeyVaultUri -secretsObject $passwordVM -asjob
+    get-job | wait-Job | Out-Null
+    Write-Host -ForegroundColor Green "Ready"
+    $KeyVaultID = $(Get-AzureRmKeyVault -ResourceGroupName $resourceGroupName).ResourceId
 
+    # Start VM deploy
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $DeployTemplate -Name deploy -KeyVaultID $KeyVaultID
 }
  
 

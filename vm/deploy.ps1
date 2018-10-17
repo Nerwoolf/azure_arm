@@ -142,12 +142,14 @@ process{
 
     # Deploy to recovery group
     
+    $VMTemplateForRecoveryRegionUri = $armLink + "vmdeployrecovery.json"
     New-AzureRmResourceGroupDeployment -Name recovery -TemplateFile $templateUri `
                                        -ResourceGroupName $recoveryRgName `
                                        -DataDiskUrl $DataDiskUrl `
                                        -osDiskUri $OsDiskUrl `
                                        -secretsObject $password `
-                                       -armLink $armLink
+                                       -armLink $armLink,
+                                       -VMTemplateForRecoveryRegion 
 
 
 }

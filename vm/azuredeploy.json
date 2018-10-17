@@ -79,6 +79,7 @@
             "type": "string",
             "defaultValue": "empty"
           }
+          
     },
     "variables":{
        "ArtifactoriLink":"[parameters('ARMlink')]",
@@ -193,7 +194,7 @@
           "properties":{
              "mode":"Incremental",
              "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'vmdeploy.json')]",
+                "uri":"[parameters('VMTemplateForRecoveryRegion')]",
                 "contentVersion":"1.0.0.0"
              },
              "parameters":{

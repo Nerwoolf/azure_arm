@@ -86,7 +86,7 @@ param(
     if(Test-Path $parametersFilePath) {
         New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -TemplateParameterFile $parametersFilePath
     } else {
-        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -secretsObject $password -armLink $armLink -AsJob
+        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -secretsObject $password -armLink $armLink -DSCLink $DSCLink -AsJob
     }
     get-job | wait-job
 

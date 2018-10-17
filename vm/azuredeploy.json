@@ -221,6 +221,26 @@
                 }
            }
         }
+     },
+     {
+         "type": "Microsoft.Resources/deployments",
+         "apiVersion": "2015-01-01",
+         "name": "VmExtension",
+         "dependsOn": [
+           "VirtualMachine"
+         ],
+         "properties": {
+             "mode": "Incremental",
+             "templateLink": {
+                 "uri": "[concat(parameters('ARMlink'), 'vmextension.json')]",
+                 "contentVersion": "1.0.0.0"
+             },
+             "parameters": {
+                "DscPacketLink":{
+                  "value": "[concat(parameters('ARMlink'),'diskconfig.ps1.zip')]"
+                }
+             }
+         }
      }
     
     ],

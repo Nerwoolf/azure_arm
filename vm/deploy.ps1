@@ -37,6 +37,8 @@ param(
  [string]$deploymentName="Task 4 - Deploy ARM's",
 
  [string]$templateUri = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/module7/vm/azuredeploy.json",
+ 
+ [String]$recoveryTemplateUri = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/module7/vm/recoveryregion.json",
 
  [string]$armLink = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/module7/vm/",
 
@@ -151,7 +153,8 @@ param(
     $OsDiskUrl = $OsDiskUrl + $sas 
 
     # Deploy to recovery group
-    New-AzureRmResourceGroupDeployment -Name recovery -TemplateFile $templateUri `
+    Write-Host -ForegroundColor Yellow "Starting deploy VM to another RG with attached VM disks"
+    New-AzureRmResourceGroupDeployment -Name recovery -TemplateFile $recoveryTemplateUri `
                                        -ResourceGroupName $recoveryRgName `
                                        -DataDiskUrl $DataDiskUrl `
                                        -osDiskUri $OsDiskUrl `

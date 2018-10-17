@@ -142,8 +142,8 @@ param(
     $sas = New-AzureStorageAccountSASToken -Service Blob -ResourceType  Container, Object , Service -Permission rw -Context $storaccount.Context
 
     # Get urls of blob files
-    $DataDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*data*"
-    $OsDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*os*"
+    $DataDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*data-disk*"
+    $OsDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*osdisk*"
     $DataDiskUrl = $DataDiskUrl + $sas
     $OsDiskUrl = $OsDiskUrl + $sas 
 

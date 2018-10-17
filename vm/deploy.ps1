@@ -105,18 +105,19 @@ param(
    
     # Wait for backup job complete
     Write-Host -ForegroundColor Yellow "Waiting for backup complete:"
-    while ((Get-AzureRmRecoveryServicesBackupJob -Operation Backup -Status InProgress) -ne $null)
-    {
+    do{
+        $progress = Get-AzureRmRecoveryServicesBackupJob -Operation Backup -Status InProgress
         Write-host -NoNewline "."
-    }
-
+        Start-Sleep -Seconds 240
+    } while ($progress)
+        
     # Get recovery points
     
     $backupitem = Get-AzureRmRecoveryServicesBackupItem -Container $namedContainer  -WorkloadType "AzureVM"
     $recoveryPoint = Get-AzureRmRecoveryServicesBackupRecoveryPoint -Item $backupitem
     
     # Create RG to restore
-    $recoveryRgName = "recovery-group-module7"
+    $recoveryRgName = "rgroupmodule7"
     $recoveryRg = New-AzureRmResourceGroup -Name $recoveryRgName -Location $resourceGroupLocation -Force
     
     # Create Storage account in recovery RG
@@ -125,7 +126,7 @@ param(
                                              -Location $resourceGroupLocation `
                                              -SkuName Standard_LRS `
                                              -Kind StorageV2 `
-                                             -ErrorAction SilentlyContinue 
+                                             -ErrorAction SilentlyContinue
     
     # Start recovery from last recovery point
     Write-host -ForegroundColor Yellow "Starting recovery to another RG and storage account"
@@ -144,16 +145,16 @@ param(
     $sas = New-AzureStorageAccountSASToken -Service Blob -ResourceType  Container, Object , Service -Permission rw -Context $storaccount.Context
 
     # Get urls of blob files
-    $DataDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*data-disk*"
+    $DataDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*datadisk*"
     $OsDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*osdisk*"
-    $DataDiskUrl = $DataDiskUrl + $sas
-    $OsDiskUrl = $OsDiskUrl + $sas 
+    $DataDiskUrl = "$DataDiskUrl$sas"
+    $OsDiskUrl = "$OsDiskUrl$sas" 
 
     # Deploy to recovery group
     Write-Host -ForegroundColor Yellow "Starting deploy VM to another RG with attached VM disks"
     New-AzureRmResourceGroupDeployment -Name recovery -TemplateFile $recoveryTemplateUri `
                                        -ResourceGroupName $recoveryRgName `
                                        -DataDiskUrl $DataDiskUrl `
-                                       -osDiskUri $OsDiskUrl `
+                                       -osDiskUrl $OsDiskUrl `
                                        -secretsObject $password `
                                        -armLink $armLink

@@ -105,12 +105,11 @@ param(
 
    
     # Wait for backup job complete
-    Write-host -ForegroundColor Yellow "waiting for backup" 
-            do {
-                $progress = Get-AzureRmRecoveryservicesBackupJob –Status "InProgress" -ErrorAction SilentlyContinue
-                Write-host -NoNewline "." 
-                Start-Sleep -Seconds 10
-            } while ($progress)
+    Write-Host -ForegroundColor Yellow "Waiting for restore"
+    while ((Get-AzureRmRecoveryServicesBackupJob -Operation Restore -Status InProgress) -ne $null)
+    {
+        Write-host -NoNewline "."
+    }
 
     # Get recovery points
     

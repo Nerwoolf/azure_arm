@@ -42,7 +42,7 @@ param(
 
  [string]$parametersFilePath = "s.json"
 )
-begin{
+
     $resourceGroupName = $resourceGroupName.ToLower()
     # Password for KeyVault
     $password = @{
@@ -80,8 +80,8 @@ begin{
     else{
         Write-Host "Using existing resource group $resourceGroupName";
     }
-}
-process{
+
+
         
         # Start the deployment
     Write-Host "Starting deployment..."
@@ -103,14 +103,15 @@ process{
     $item = Get-AzureRmRecoveryServicesBackupItem -Container $namedContainer -WorkloadType "AzureVM"
     $job = Backup-AzureRmRecoveryServicesBackupItem -Item $item
 
+   
     # Wait for backup job complete
     Write-host -ForegroundColor Yellow "waiting for backup" 
-    do {
-       $progress = Get-AzureRmRecoveryservicesBackupJob –Status "InProgress"
-       Write-host -NoNewline "." 
-       Start-Sleep -Seconds 10
-    }while ($progress)
-    
+            do {
+                $progress = Get-AzureRmRecoveryservicesBackupJob –Status "InProgress" -ErrorAction SilentlyContinue
+                Write-host -NoNewline "." 
+                Start-Sleep -Seconds 10
+            } while ($progress)
+
     # Get recovery points
     
     $backupitem = Get-AzureRmRecoveryServicesBackupItem -Container $namedContainer  -WorkloadType "AzureVM"
@@ -135,10 +136,14 @@ process{
     # Get blob url from storage account
     $recoveryAccContainer = Get-AzureStorageContainer -Context $storaccount.Context
     $recoveryAccBlob = Get-AzureStorageBlob -Context $storaccount.Context -Container $recoveryAccContainer.Name | Where-Object -Property Length -ge 1GB
-    
+
+    # Create SAS
+    $sas = New-AzureStorageAccountSASToken -Service Blob -ResourceType  Container, Object , Service -Permission rw -Context $storaccount.Context
     # Get urls of blob files
     $DataDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*data*"
     $OsDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*os*"
+    $DataDiskUrl = $DataDiskUrl + $sas
+    $OsDiskUrl = $OsDiskUrl + $sas 
 
     # Deploy to recovery group
     
@@ -150,6 +155,3 @@ process{
                                        -secretsObject $password `
                                        -armLink $armLink `
                                        -VMTemplateForRecoveryRegion $VMTemplateForRecoveryRegionUri
-
-
-}

@@ -15,9 +15,6 @@
         "PublicIPid":{
           "type":"string"
         },
-        "StorAccNameOutput":{
-          "type": "string"
-        },
         "AdminName":{
           "type": "string",
           "defaultValue": "nerwoolf"
@@ -105,8 +102,7 @@
               },
               "diagnosticsProfile": {
                 "bootDiagnostics": {
-                  "enabled": true,
-                  "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts', parameters('StorAccNameOutput')), '2017-06-01').primaryEndpoints['blob']]"
+                  "enabled": false
                 }
               },
               "availabilitySet": {

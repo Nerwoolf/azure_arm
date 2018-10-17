@@ -116,21 +116,6 @@
           }
        },
        {
-          "name":"StorageAccount",
-          "type":"Microsoft.Resources/deployments",
-          "apiVersion":"2015-01-01",
-          "properties":{
-             "mode":"Incremental",
-             "templateLink":{
-                "uri":"[concat(variables('ArtifactoriLink'),'storageaccount.json')]",
-                "contentVersion":"1.0.0.0"
-             },
-             "parameters":{
- 
-             }
-          }
-       },
-       {
         "type": "Microsoft.KeyVault/vaults",
         "name": "[variables('keyVaultName')]",
         "apiVersion"  : "2016-10-01",
@@ -200,9 +185,6 @@
                 "PublicIPid":{
                    "value":"[reference('VirtualNetwork').outputs.PublicIPid.value]"
                 },
-                "StorAccNameOutput":{
-                   "value":"[reference('StorageAccount').outputs.StorAccNameOutput.value]"
-                },
                 "adminPassword":{
                     "reference": {
                         "keyVault": {
@@ -219,25 +201,7 @@
                 }
              }
           }
-       },
-       {
-        "name":"BackupVault",
-        "type":"Microsoft.Resources/deployments",
-        "apiVersion":"2015-01-01",
-        "properties":{
-           "mode":"Incremental",
-           "templateLink":{
-              "uri":"[concat(variables('ArtifactoriLink'),'backup.json')]",
-              "contentVersion":"1.0.0.0"
-           },
-           "parameters":{
-                "existingVirtualMachines":{
-                    "value":"[reference('VirtualMachine').outputs.vmname.value]"
-                }
-           }
-        }
-     }
-    
+       }
     ],
     "outputs":{
  

@@ -44,15 +44,7 @@
               "[variables('VirtualMachineNicName')]"
             ],
             "properties": {
-              "osProfile": {
-                "computerName": "[variables('virtualMachineName')]",
-                "adminUsername": "[parameters('AdminName')]",
-                "adminPassword": "[parameters('AdminPassword')]",
-                "windowsConfiguration": {
-                  "provisionVmAgent": "true"
-                }
-              },
-              "hardwareProfile": {
+                "hardwareProfile": {
                 "vmSize": "[parameters('vmsize')]"
               },
               "storageProfile": {

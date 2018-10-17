@@ -35,12 +35,6 @@
     },
     "resources": [
         {
-            "properties": {
-              "platformFaultDomainCount":1,
-              "platformUpdateDomainCount":1
-            }
-        },
-        {
             "name": "[variables('VirtualMachineName')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2017-03-30",

@@ -245,7 +245,7 @@
                   "value": "[concat(parameters('ARMlink'),'dsc.ps1.zip')]"
                 },
                 "ExtForVM":{
-                  "value": "[reference('VirtualMachine').outputs.VMname.value]"
+                  "value": "[reference('VirtualMachine').outputs.vmname.value]"
                 }
              }
          }
@@ -253,6 +253,6 @@
     
     ],
     "outputs":{
- 
+     
     }
  }

@@ -90,7 +90,7 @@
       }
     },
     "variables": {
-      "KeyVaultName":"[concat('keyvault','azlab7')]"
+      "KeyVaultName":"[concat('keyvaultazlab7')]"
     },
     "resources": [
       {

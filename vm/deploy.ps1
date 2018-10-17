@@ -109,7 +109,7 @@ process{
        $progress = Get-AzureRmRecoveryservicesBackupJob –Status "InProgress"
        Write-host -NoNewline "." 
        Start-Sleep -Seconds 10
-    } while ($progress)
+    }while ($progress)
     
     # Get recovery points
     
@@ -148,8 +148,8 @@ process{
                                        -DataDiskUrl $DataDiskUrl `
                                        -osDiskUri $OsDiskUrl `
                                        -secretsObject $password `
-                                       -armLink $armLink,
-                                       -VMTemplateForRecoveryRegion 
+                                       -armLink $armLink `
+                                       -VMTemplateForRecoveryRegion $VMTemplateForRecoveryRegionUri
 
 
 }

@@ -6,14 +6,14 @@
             "type": "string"
         },
         "ExtForVM":{
-            "type": "string"
+            "type": "array"
         }
     },
     "variables": {},
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(parameters('ExtForVM'),'/','DscExtension')]",
+            "name": "[concat(parameters('ExtForVM')[0],'/','DscExtension')]",
             "apiVersion": "2018-06-01",
             "location": "[resourceGroup().location]",
             "properties": {

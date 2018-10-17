@@ -102,7 +102,7 @@ param(
 
    
     # Wait for backup job complete
-    Write-Host -ForegroundColor Yellow "Waiting for restore"
+    Write-Host -ForegroundColor Yellow "Waiting for backup complete:"
     while ((Get-AzureRmRecoveryServicesBackupJob -Operation Backup -Status InProgress) -ne $null)
     {
         Write-host -NoNewline "."

@@ -57,6 +57,7 @@
               },
               "storageProfile": {
                 "osDisk": {
+                  "osType":"Windows",
                   "createOption": "Attach",
                   "name": "[concat(variables('VirtualMachineName'),'osdisk')]",
                   "vhd":{

@@ -158,7 +158,7 @@ param(
 
     # Deploy to recovery group
     Write-Host -ForegroundColor Yellow "Starting deploy VM to another RG with attached VM disks"
-    New-AzureRmResourceGroupDeployment -Name recovery -TemplateFile $recoveryTemplateUri `
+    New-AzureRmResourceGroupDeployment -Name recovery -TemplateFile ".\vm\vmdeployrecovery.json" `
                                        -ResourceGroupName $recoveryRgName `
                                        -DataDiskUrl $DataDiskUrl `
                                        -osDiskUrl $OsDiskUrl `

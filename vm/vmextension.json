@@ -20,7 +20,7 @@
               "autoUpgradeMinorVersion": true,
               "settings": {
                 "ModulesUrl": "[parameters('DscPacketLink')]",
-                "ConfigurationFunction": "diskconfig.ps1\\initdisk",
+                "ConfigurationFunction": "dsc.ps1\\DataDisk",
                 "Properties": {
                 }
               },

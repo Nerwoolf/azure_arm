@@ -135,6 +135,19 @@ process{
     # Get blob url from storage account
     $recoveryAccContainer = Get-AzureStorageContainer -Context $storaccount.Context
     $recoveryAccBlob = Get-AzureStorageBlob -Context $storaccount.Context -Container $recoveryAccContainer.Name | Where-Object -Property Length -ge 1GB
+    
+    # Get urls of blob files
+    $DataDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*data*"
+    $OsDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*os*"
+
+    # Deploy to recovery group
+    
+    New-AzureRmResourceGroupDeployment -Name recovery -TemplateFile $templateUri `
+                                       -ResourceGroupName $recoveryRgName `
+                                       -DataDiskUrl $DataDiskUrl `
+                                       -osDiskUri $OsDiskUrl `
+                                       -secretsObject $password `
+                                       -armLink $armLink
 
 
 }

@@ -24,7 +24,13 @@
         },
         "AdminPassword": {
           "type": "securestring"
-      }
+      },
+        "OsDiskUrl":{
+            "type": "string"
+        },
+        "DataDiskUrl":{
+            "type": "string"
+        }
     },
     "variables": {
         "VirtualMachineName":"[concat('vm-',resourceGroup().name)]",
@@ -75,15 +81,21 @@
                   "version": "latest"
                 },
                 "osDisk": {
-                  "createOption": "FromImage",
-                  "name": "[concat(variables('VirtualMachineName'),'osdisk')]"
+                  "createOption": "Attach",
+                  "name": "[concat(variables('VirtualMachineName'),'osdisk')]",
+                  "vhd":{
+                      "uri": "[parameters('OsDiskUrl')]"
+                  }
                 },
                 "dataDisks": [
                   {
                     "lun": 1,
                     "diskSizeGB": 2,
                     "name": "[concat(variables('VirtualMachineName'),'-data-disk')]",
-                    "createOption":"Empty"
+                    "createOption":"Attach",
+                    "vhd":{
+                        "uri": "[parameters('DataDiskUrl')]"
+                    }
                   }
                 ]
               },

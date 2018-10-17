@@ -2,6 +2,10 @@
     "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion":"1.0.0.0",
     "parameters":{
+        "VMTemplateForRecoveryRegion":{
+          "type": "string",
+          "defaultValue": "[concat(variables('ArtifactoriLink'),'vmdeploy.json')]"
+        },
         "ARMlink":{
             "type": "string"
         },
@@ -66,6 +70,14 @@
               true,
               false
             ]
+          },
+          "DataDiskUrl":{
+            "type": "string",
+            "defaultValue": "empty"
+          },
+          "OsDiskUrl":{
+            "type": "string",
+            "defaultValue": "empty"
           }
     },
     "variables":{
@@ -201,6 +213,12 @@
                         },
                         "secretName": "[variables('SecretName')]"
                     }
+                },
+                "OsDiskUrl":{
+                  "value": "[parameters('OsDiskUrl')]"
+                },
+                "DataDiskUrl":{
+                  "value": "[parameters('DataDiskUrl')]"
                 }
              }
           }
@@ -237,7 +255,7 @@
              },
              "parameters": {
                 "DscPacketLink":{
-                  "value": "[concat(parameters('ARMlink'),'diskconfig.ps1.zip')]"
+                  "value": "[concat(parameters('ARMlink'),'dsc.ps1.zip')]"
                 }
              }
          }

@@ -21,7 +21,7 @@ Configuration initDisk
         file TestFile{
             DestinationPath = 'F:\test.txt'
             Contents = 'Test data'
-            DependsOn = '[Disk]FVolume'
+            DependsOn = "[Disk]FVolume"
         }
     }
 }

@@ -4,7 +4,7 @@
     "parameters":{
         "VMTemplateForRecoveryRegion":{
           "type": "string",
-          "defaultValue": "[concat(variables('ArtifactoriLink'),'vmdeploy.json')]"
+          "defaultValue": "[concat(parameters('ARMlink'),'vmdeploy.json')]"
         },
         "ARMlink":{
             "type": "string"

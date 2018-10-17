@@ -11,7 +11,7 @@ Configuration initDisk
              RetryCount = 60
         }
 
-        Disk GVolume
+        Disk FVolume
         {
              DiskId = 2
              DriveLetter = 'F'
@@ -21,7 +21,7 @@ Configuration initDisk
         file TestFile{
             DestinationPath = 'F:\test.txt'
             Contents = 'Test data'
-            DependsOn = [Disk]'DVolume'
+            DependsOn = '[Disk]FVolume'
         }
     }
 }

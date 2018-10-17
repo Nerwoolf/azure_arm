@@ -10,7 +10,7 @@
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "DscExtension",
+            "name": "[concat('test-vm','/','DscExtension')]",
             "apiVersion": "2018-06-01",
             "location": "[resourceGroup().location]",
             "properties": {

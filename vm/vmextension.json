@@ -5,7 +5,7 @@
         "DscPacketLink":{
             "type": "string"
         },
-        "VMname":{
+        "ExtForVM":{
             "type": "string"
         }
     },
@@ -13,7 +13,7 @@
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(parameters('VMname'),'/','DscExtension')]",
+            "name": "[concat(parameters('ExtForVM'),'/','DscExtension')]",
             "apiVersion": "2018-06-01",
             "location": "[resourceGroup().location]",
             "properties": {

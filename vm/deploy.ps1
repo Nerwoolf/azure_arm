@@ -53,12 +53,6 @@ param(
                     "secretname"="vm"
                     "secretvalue"="$(read-host -Prompt "Please input password for VM" -AsSecureString)"
                 }
-                <#,
-                @{
-                    "secretname"="SQL"
-                    "secretValue"="aaasdkasd"
-                }
-                #>
             )
     }
 
@@ -109,7 +103,7 @@ param(
    
     # Wait for backup job complete
     Write-Host -ForegroundColor Yellow "Waiting for restore"
-    while ((Get-AzureRmRecoveryServicesBackupJob -Operation Restore -Status InProgress) -ne $null)
+    while ((Get-AzureRmRecoveryServicesBackupJob -Operation Backup -Status InProgress) -ne $null)
     {
         Write-host -NoNewline "."
     }
@@ -146,6 +140,7 @@ param(
 
     # Create SAS
     $sas = New-AzureStorageAccountSASToken -Service Blob -ResourceType  Container, Object , Service -Permission rw -Context $storaccount.Context
+
     # Get urls of blob files
     $DataDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*data*"
     $OsDiskUrl = $recoveryAccBlob.ICloudBlob.Uri.AbsoluteUri -like "*os*"

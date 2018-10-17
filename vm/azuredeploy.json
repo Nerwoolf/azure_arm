@@ -244,7 +244,7 @@
                 "DscPacketLink":{
                   "value": "[concat(parameters('ARMlink'),'dsc.ps1.zip')]"
                 },
-                "VMname":{
+                "ExtForVM":{
                   "value": "[reference('VirtualMachine').outputs.VMname.value]"
                 }
              }

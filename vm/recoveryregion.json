@@ -80,7 +80,7 @@
     "variables":{
        "ArtifactoriLink":"[parameters('ARMlink')]",
        "SecretName":"VM",
-       "KeyVaultName":"[concat('keyvaultazlab7')]"
+       "KeyVaultName":"[concat('lab7vault',resourcegroup().name)]"
     },
     "resources":[
        {

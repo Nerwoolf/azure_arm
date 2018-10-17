@@ -31,18 +31,10 @@
     },
     "variables": {
         "VirtualMachineName":"[concat('vm-',resourceGroup().name)]",
-        "AvailabilitySetName":"[concat('availset',resourceGroup().name)]",
         "VirtualMachineNicName":"[concat('vm-','nic-',resourceGroup().name)]"
     },
     "resources": [
         {
-            "type": "Microsoft.Compute/availabilitySets",
-            "name": "[variables('AvailabilitySetName')]",
-            "apiVersion": "2016-04-30-preview",
-            "location": "[resourceGroup().location]",
-            "sku":{
-              "name": "aligned"
-            },
             "properties": {
               "platformFaultDomainCount":1,
               "platformUpdateDomainCount":1
@@ -55,8 +47,7 @@
             "location": "[resourceGroup().location]",
             "comments": "This is the virtual machine that you're building.",
             "dependsOn": [
-              "[variables('VirtualMachineNicName')]",
-              "[variables('AvailabilitySetName')]"
+              "[variables('VirtualMachineNicName')]"
             ],
             "properties": {
               "osProfile": {
@@ -104,9 +95,6 @@
                 "bootDiagnostics": {
                   "enabled": false
                 }
-              },
-              "availabilitySet": {
-                "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('AvailabilitySetName'))]"
               }
             }
           },

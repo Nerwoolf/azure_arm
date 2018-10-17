@@ -121,7 +121,12 @@ param(
     $recoveryRg = New-AzureRmResourceGroup -Name $recoveryRgName -Location $resourceGroupLocation
     
     # Create Storage account in recovery RG
-    $storaccount = New-AzureRmStorageAccount -Name "module7recoverystor" -ResourceGroupName $recoveryRgName -Location $resourceGroupLocation -SkuName Standard_LRS -Kind StorageV2
+    $storaccount = New-AzureRmStorageAccount -Name "module7recoverystor" `
+                                             -ResourceGroupName $recoveryRgName `
+                                             -Location $resourceGroupLocation `
+                                             -SkuName Standard_LRS `
+                                             -Kind StorageV2 `
+                                             -ErrorAction SilentlyContinue
     
     # Start recovery from last recovery point
     Write-host -ForegroundColor Yellow "Starting recovery to another RG and storage account"

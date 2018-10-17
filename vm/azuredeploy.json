@@ -70,14 +70,6 @@
               true,
               false
             ]
-          },
-          "DataDiskUrl":{
-            "type": "string",
-            "defaultValue": "empty"
-          },
-          "OsDiskUrl":{
-            "type": "string",
-            "defaultValue": "empty"
           }
           
     },
@@ -214,12 +206,6 @@
                         },
                         "secretName": "[variables('SecretName')]"
                     }
-                },
-                "OsDiskUrl":{
-                  "value": "[parameters('OsDiskUrl')]"
-                },
-                "DataDiskUrl":{
-                  "value": "[parameters('DataDiskUrl')]"
                 }
              }
           }
@@ -257,6 +243,9 @@
              "parameters": {
                 "DscPacketLink":{
                   "value": "[concat(parameters('ARMlink'),'dsc.ps1.zip')]"
+                },
+                "VMname":{
+                  "value": "[reference('VirtualMachine').outputs.VMname.value]"
                 }
              }
          }

@@ -119,7 +119,7 @@ param(
     
     # Create RG to restore
     $recoveryRgName = "recovery-group-module7"
-    $recoveryRg = New-AzureRmResourceGroup -Name $recoveryRgName -Location $resourceGroupLocation
+    $recoveryRg = New-AzureRmResourceGroup -Name $recoveryRgName -Location $resourceGroupLocation -Force
     
     # Create Storage account in recovery RG
     $storaccount = New-AzureRmStorageAccount -Name "module7recoverystor" `
@@ -127,7 +127,7 @@ param(
                                              -Location $resourceGroupLocation `
                                              -SkuName Standard_LRS `
                                              -Kind StorageV2 `
-                                             -ErrorAction SilentlyContinue
+                                             -ErrorAction SilentlyContinue 
     
     # Start recovery from last recovery point
     Write-host -ForegroundColor Yellow "Starting recovery to another RG and storage account"
@@ -151,12 +151,9 @@ param(
     $OsDiskUrl = $OsDiskUrl + $sas 
 
     # Deploy to recovery group
-    
-    $VMTemplateForRecoveryRegionUri = $armLink + "vmdeployrecovery.json"
     New-AzureRmResourceGroupDeployment -Name recovery -TemplateFile $templateUri `
                                        -ResourceGroupName $recoveryRgName `
                                        -DataDiskUrl $DataDiskUrl `
                                        -osDiskUri $OsDiskUrl `
                                        -secretsObject $password `
-                                       -armLink $armLink `
-                                       -VMTemplateForRecoveryRegion $VMTemplateForRecoveryRegionUri
+                                       -armLink $armLink

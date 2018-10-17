@@ -74,12 +74,6 @@
                 "vmSize": "[parameters('vmsize')]"
               },
               "storageProfile": {
-                "imageReference": {
-                  "publisher": "MicrosoftWindowsServer",
-                  "offer": "WindowsServer",
-                  "sku": "2016-Datacenter",
-                  "version": "latest"
-                },
                 "osDisk": {
                   "createOption": "Attach",
                   "name": "[concat(variables('VirtualMachineName'),'osdisk')]",

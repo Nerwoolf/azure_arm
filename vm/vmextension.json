@@ -4,13 +4,16 @@
     "parameters": {
         "DscPacketLink":{
             "type": "string"
+        },
+        "VMname":{
+            "type": "string"
         }
     },
     "variables": {},
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat('test-vm','/','DscExtension')]",
+            "name": "[concat(parameters('VMname'),'/','DscExtension')]",
             "apiVersion": "2018-06-01",
             "location": "[resourceGroup().location]",
             "properties": {

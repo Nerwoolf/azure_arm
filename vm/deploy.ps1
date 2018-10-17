@@ -29,6 +29,9 @@ param(
 
  [Parameter(Mandatory=$True)]
  [string]$resourceGroupName,
+
+ [Parameter(Mandatory=$true)]
+ [string]$recoveryRgName,
  
  [Parameter(Mandatory=$true)]
  [string]$resourceGroupLocation,
@@ -105,21 +108,24 @@ param(
    
     # Wait for backup job complete
     Write-Host -ForegroundColor Yellow "Waiting for backup complete:"
+    <#  ###  Wait using cycle ###
     do{
         $progress = Get-AzureRmRecoveryServicesBackupJob -Operation Backup -Status InProgress
         Write-host -NoNewline "."
         Start-Sleep -Seconds 240
     } while ($progress)
-        
+    #>
+    
+    Wait-AzureRmRecoveryServicesBackupJob -Job $job
+
     # Get recovery points
     
     $backupitem = Get-AzureRmRecoveryServicesBackupItem -Container $namedContainer  -WorkloadType "AzureVM"
     $recoveryPoint = Get-AzureRmRecoveryServicesBackupRecoveryPoint -Item $backupitem
     
-    # Create RG to restore
-    $recoveryRgName = "rgroupmodule7"
-    $recoveryRg = New-AzureRmResourceGroup -Name $recoveryRgName -Location $resourceGroupLocation -Force
-    
+     # Create RG to restore
+     New-AzureRmResourceGroup -Name $recoveryRgName -Location $resourceGroupLocation -Force
+
     # Create Storage account in recovery RG
     $storaccount = New-AzureRmStorageAccount -Name "module7recoverystor" `
                                              -ResourceGroupName $recoveryRgName `

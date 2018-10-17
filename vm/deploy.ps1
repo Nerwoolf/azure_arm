@@ -88,8 +88,9 @@ param(
     if(Test-Path $parametersFilePath) {
         New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -TemplateParameterFile $parametersFilePath
     } else {
-        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -secretsObject $password -armLink $armLink
+        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $templateUri -secretsObject $password -armLink $armLink -AsJob
     }
+    get-job | wait-job
 
     # Wait minute for backup agent
     Write-host -ForegroundColor Yellow "Waiting for backup agent provision be complete"

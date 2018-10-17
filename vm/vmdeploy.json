@@ -24,7 +24,13 @@
         },
         "AdminPassword": {
           "type": "securestring"
-      }
+      },
+        "DataDiskUrl":{
+          "type": "string"
+        },
+        "OsDiskUrl":{
+          "type": "string"
+        }
     },
     "variables": {
         "VirtualMachineName":"[concat('vm-',resourceGroup().name)]",

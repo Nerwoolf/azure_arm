@@ -2,6 +2,9 @@
     "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion":"1.0.0.0",
     "parameters":{
+        "DSCLink":{
+          "type": "string"
+        },
         "VMTemplateForRecoveryRegion":{
           "type": "string",
           "defaultValue": "[concat(parameters('ARMlink'),'vmdeploy.json')]"
@@ -242,7 +245,7 @@
              },
              "parameters": {
                 "DscPacketLink":{
-                  "value": "[concat(parameters('ARMlink'),'dsc.ps1.zip')]"
+                  "value": "[parameters('DSCLink')]"
                 },
                 "ExtForVM":{
                   "value": "[reference('VirtualMachine').outputs.vmname.value]"

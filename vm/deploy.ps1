@@ -42,6 +42,8 @@ param(
 
  [string]$armLink = "https://raw.githubusercontent.com/Nerwoolf/azure_arm/module7/vm/",
 
+ [String]$DSCLink = "https://github.com/Nerwoolf/azure_arm/raw/module7/vm/dsp.ps1.zip",
+
  [string]$parametersFilePath = "s.json"
 )
 

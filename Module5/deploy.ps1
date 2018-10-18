@@ -34,7 +34,7 @@ param(
     [string]$resourceGroupLocation="northeurope",
 
     [Parameter(Mandatory = $true)]
-    [string]$SecondtWebAppLocation="westeurope",
+    [string]$SecondWebAppLocation="westeurope",
 
     [Parameter(Mandatory = $false)]
     [string]$deploymentName = "Task 5 - Deploy WebApp",
@@ -83,7 +83,7 @@ process{
         New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $ARMtemplateUri -TemplateParameterFile $parametersFilePath -ResourceGroupLocation $resourceGroupLocation -SecondWebAppLocation $SecondtWebAppLocation -Mode Complete -AsJob -Force
     }
     else {
-        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $ARMtemplateUri -SecondWebAppLocation $SecondtWebAppLocation -ResourceGroupLocation $resourceGroupLocation  -Mode Complete -AsJob -Force
+        New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateUri $ARMtemplateUri -SecondWebAppLocation $SecondWebAppLocation -ResourceGroupLocation $resourceGroupLocation  -Mode Complete -AsJob -Force
     }
 
     # Wait for ARM Deploy

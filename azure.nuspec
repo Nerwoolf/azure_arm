@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
     <!-- Required elements-->
-    <id>Azure DevOps</id>
+    <id>AzureDevOps</id>
     <version>$version$</version>
     <description>Collection of azure sources for deploy</description>
     <authors>Epam</authors>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+    <!-- Required elements-->
+    <id>Azure DevOps</id>
+    <version>$version$</version>
+    <description>Collection of azure sources for deploy</description>
+    <authors>Epam</authors>
+
+    <!-- Optional elements -->
+    <!-- ... -->
+    </metadata>
+    <!-- Optional 'files' node -->
+    <files>
+      <file src="**\*.json" target="" />
+      <file src="**\*.ps1" target="" />
+	  <file src="**\*.xml" target="" />
+    </files>
+</package>
